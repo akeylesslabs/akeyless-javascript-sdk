@@ -32,8 +32,9 @@ Method | HTTP request | Description
 [**encryptFile**](DefaultApi.md#encryptFile) | **POST** /encrypt-file | Encrypts a file by using an AES key
 [**encryptPkcs1**](DefaultApi.md#encryptPkcs1) | **POST** /encrypt-pkcs1 | Encrypts the given message with RSA and the padding scheme from PKCS#1 v1.5
 [**getAuthMethod**](DefaultApi.md#getAuthMethod) | **POST** /get-auth-method | Returns an information about the Auth Method
-[**getCloudIdentity**](DefaultApi.md#getCloudIdentity) | **POST** /get-cloud-identity | Get Cloud Identity Token (relevant only for access-type&#x3D;azure_ad,aws_iam)
+[**getCloudIdentity**](DefaultApi.md#getCloudIdentity) | **POST** /get-cloud-identity | Get Cloud Identity Token (relevant only for access-type=azure_ad,aws_iam)
 [**getDynamicSecretValue**](DefaultApi.md#getDynamicSecretValue) | **POST** /get-dynamic-secret-value | Get dynamic secret value
+[**getKubeExecCreds**](DefaultApi.md#getKubeExecCreds) | **POST** /get-kube-exec-creds | Get credentials for authentication with Kubernetes cluster based on a PKI Cert Issuer
 [**getPkiCertificate**](DefaultApi.md#getPkiCertificate) | **POST** /get-pki-certificate | Generates PKI certificate
 [**getRole**](DefaultApi.md#getRole) | **POST** /get-role | Get role details
 [**getRsaPublic**](DefaultApi.md#getRsaPublic) | **POST** /get-rsa-public | Obtain the public key from a specific RSA private key
@@ -55,45 +56,48 @@ Method | HTTP request | Description
 [**verifyPkcs1**](DefaultApi.md#verifyPkcs1) | **POST** /verify-pkcs1 | Verifies an RSA PKCS#1 v1.5 signature
 
 
-
-## assocRoleAm
-
+<a name="assocRoleAm"></a>
+# **assocRoleAm**
 > ReplyObj assocRoleAm(roleName, amName, token, opts)
 
 Create an association between role and auth method
 
-Create an association between role and auth method Options:   role-name -    The role name to associate   am-name -    The auth method name to associate   sub-claims -    key/val of sub claims, ex. group&#x3D;admins,developers   token -    Access token
+Create an association between role and auth method Options:   role-name -    The role name to associate   am-name -    The auth method name to associate   sub-claims -    key/val of sub claims, ex. group=admins,developers   token -    Access token
 
 ### Example
-
 ```javascript
-import AkeylessVaultApi from 'akeyless_vault_api';
+var AkeylessVaultApi = require('akeyless_vault_api');
 
-let apiInstance = new AkeylessVaultApi.DefaultApi();
-let roleName = "roleName_example"; // String | The role name to associate
-let amName = "amName_example"; // String | The auth method name to associate
-let token = "token_example"; // String | Access token
-let opts = {
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var roleName = "roleName_example"; // String | The role name to associate
+
+var amName = "amName_example"; // String | The auth method name to associate
+
+var token = "token_example"; // String | Access token
+
+var opts = { 
   'subClaims': "subClaims_example" // String | key/val of sub claims, ex. group=admins,developers
 };
-apiInstance.assocRoleAm(roleName, amName, token, opts, (error, data, response) => {
+
+var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-});
+};
+apiInstance.assocRoleAm(roleName, amName, token, opts, callback);
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **roleName** | **String**| The role name to associate | 
  **amName** | **String**| The auth method name to associate | 
  **token** | **String**| Access token | 
- **subClaims** | **String**| key/val of sub claims, ex. group&#x3D;admins,developers | [optional] 
+ **subClaims** | **String**| key/val of sub claims, ex. group=admins,developers | [optional] 
 
 ### Return type
 
@@ -105,50 +109,51 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
-
-## auth
-
+<a name="auth"></a>
+# **auth**
 > ReplyObj auth(accessId, opts)
 
 Authenticate to the service and returns a token to be used as a profile to execute the CLI without the need for re-authentication
 
-Authenticate to the service and returns a token to be used as a profile to execute the CLI without the need for re-authentication Options:   access-id -    Access ID   access-type -    Access Type (access_key/saml/ldap/azure_ad/aws_iam)   access-key -    Access key (relevant only for access-type&#x3D;access_key)   cloud-id -    The cloued identity (relevant only for access-type&#x3D;azure_ad,awd_im,auid)   ldap_proxy_url -    Address URL for LDAP proxy (relevant only for access-type&#x3D;ldap)
+Authenticate to the service and returns a token to be used as a profile to execute the CLI without the need for re-authentication Options:   access-id -    Access ID   access-type -    Access Type (access_key/saml/ldap/azure_ad/aws_iam)   access-key -    Access key (relevant only for access-type=access_key)   cloud-id -    The cloued identity (relevant only for access-type=azure_ad,awd_im,auid)   ldap_proxy_url -    Address URL for LDAP proxy (relevant only for access-type=ldap)
 
 ### Example
-
 ```javascript
-import AkeylessVaultApi from 'akeyless_vault_api';
+var AkeylessVaultApi = require('akeyless_vault_api');
 
-let apiInstance = new AkeylessVaultApi.DefaultApi();
-let accessId = "accessId_example"; // String | Access ID
-let opts = {
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var accessId = "accessId_example"; // String | Access ID
+
+var opts = { 
   'accessType': "accessType_example", // String | Access Type (access_key/saml/ldap/azure_ad/aws_iam)
   'accessKey': "accessKey_example", // String | Access key (relevant only for access-type=access_key)
   'cloudId': "cloudId_example", // String | The cloued identity (relevant only for access-type=azure_ad,awd_im,auid)
   'ldapProxyUrl': "ldapProxyUrl_example" // String | Address URL for LDAP proxy (relevant only for access-type=ldap)
 };
-apiInstance.auth(accessId, opts, (error, data, response) => {
+
+var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-});
+};
+apiInstance.auth(accessId, opts, callback);
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **accessId** | **String**| Access ID | 
  **accessType** | **String**| Access Type (access_key/saml/ldap/azure_ad/aws_iam) | [optional] 
- **accessKey** | **String**| Access key (relevant only for access-type&#x3D;access_key) | [optional] 
- **cloudId** | **String**| The cloued identity (relevant only for access-type&#x3D;azure_ad,awd_im,auid) | [optional] 
- **ldapProxyUrl** | **String**| Address URL for LDAP proxy (relevant only for access-type&#x3D;ldap) | [optional] 
+ **accessKey** | **String**| Access key (relevant only for access-type=access_key) | [optional] 
+ **cloudId** | **String**| The cloued identity (relevant only for access-type=azure_ad,awd_im,auid) | [optional] 
+ **ldapProxyUrl** | **String**| Address URL for LDAP proxy (relevant only for access-type=ldap) | [optional] 
 
 ### Return type
 
@@ -160,50 +165,51 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
-
-## configure
-
+<a name="configure"></a>
+# **configure**
 > ReplyObj configure(accessId, opts)
 
 Configure client profile.
 
-Configure client profile. Options:   access-id -    Access ID   access-key -    Access Key   access-type -    Access Type (access_key/azure_ad/saml/ldap/aws_iam)   ldap_proxy_url -    Address URL for ldap proxy (relevant only for access-type&#x3D;ldap)   azure_ad_object_id -    Azure Active Directory ObjectId (relevant only for access-type&#x3D;azure_ad)
+Configure client profile. Options:   access-id -    Access ID   access-key -    Access Key   access-type -    Access Type (access_key/azure_ad/saml/ldap/aws_iam)   ldap_proxy_url -    Address URL for ldap proxy (relevant only for access-type=ldap)   azure_ad_object_id -    Azure Active Directory ObjectId (relevant only for access-type=azure_ad)
 
 ### Example
-
 ```javascript
-import AkeylessVaultApi from 'akeyless_vault_api';
+var AkeylessVaultApi = require('akeyless_vault_api');
 
-let apiInstance = new AkeylessVaultApi.DefaultApi();
-let accessId = "accessId_example"; // String | Access ID
-let opts = {
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var accessId = "accessId_example"; // String | Access ID
+
+var opts = { 
   'accessKey': "accessKey_example", // String | Access Key
   'accessType': "accessType_example", // String | Access Type (access_key/azure_ad/saml/ldap/aws_iam)
   'ldapProxyUrl': "ldapProxyUrl_example", // String | Address URL for ldap proxy (relevant only for access-type=ldap)
   'azureAdObjectId': "azureAdObjectId_example" // String | Azure Active Directory ObjectId (relevant only for access-type=azure_ad)
 };
-apiInstance.configure(accessId, opts, (error, data, response) => {
+
+var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-});
+};
+apiInstance.configure(accessId, opts, callback);
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **accessId** | **String**| Access ID | 
  **accessKey** | **String**| Access Key | [optional] 
  **accessType** | **String**| Access Type (access_key/azure_ad/saml/ldap/aws_iam) | [optional] 
- **ldapProxyUrl** | **String**| Address URL for ldap proxy (relevant only for access-type&#x3D;ldap) | [optional] 
- **azureAdObjectId** | **String**| Azure Active Directory ObjectId (relevant only for access-type&#x3D;azure_ad) | [optional] 
+ **ldapProxyUrl** | **String**| Address URL for ldap proxy (relevant only for access-type=ldap) | [optional] 
+ **azureAdObjectId** | **String**| Azure Active Directory ObjectId (relevant only for access-type=azure_ad) | [optional] 
 
 ### Return type
 
@@ -215,12 +221,11 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
-
-## createAuthMethod
-
+<a name="createAuthMethod"></a>
+# **createAuthMethod**
 > ReplyObj createAuthMethod(name, token, opts)
 
 Create a new Auth Method in the account
@@ -228,28 +233,31 @@ Create a new Auth Method in the account
 Create a new Auth Method in the account Options:   name -    Auth Method name   access-expires -    Access expiration date in Unix timestamp (select 0 for access without expiry date)   bound-ips -    A CIDR whitelist with the IPs that the access is restricted to   token -    Access token
 
 ### Example
-
 ```javascript
-import AkeylessVaultApi from 'akeyless_vault_api';
+var AkeylessVaultApi = require('akeyless_vault_api');
 
-let apiInstance = new AkeylessVaultApi.DefaultApi();
-let name = "name_example"; // String | Auth Method name
-let token = "token_example"; // String | Access token
-let opts = {
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var name = "name_example"; // String | Auth Method name
+
+var token = "token_example"; // String | Access token
+
+var opts = { 
   'accessExpires': "accessExpires_example", // String | Access expiration date in Unix timestamp (select 0 for access without expiry date)
   'boundIps': "boundIps_example" // String | A CIDR whitelist with the IPs that the access is restricted to
 };
-apiInstance.createAuthMethod(name, token, opts, (error, data, response) => {
+
+var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-});
+};
+apiInstance.createAuthMethod(name, token, opts, callback);
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -268,12 +276,11 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
-
-## createAuthMethodAwsIam
-
+<a name="createAuthMethodAwsIam"></a>
+# **createAuthMethodAwsIam**
 > ReplyObj createAuthMethodAwsIam(name, boundAWSAccountId, token, opts)
 
 Create a new Auth Method that will be able to authenticate using AWS IAM credentials
@@ -281,15 +288,18 @@ Create a new Auth Method that will be able to authenticate using AWS IAM credent
 Create a new Auth Method that will be able to authenticate using AWS IAM credentials Options:   name -    Auth Method name   access-expires -    Access expiration date in Unix timestamp (select 0 for access without expiry date)   bound-ips -    A CIDR whitelist of the IPs that the access is restricted to   sts-url -    sts URL   bound-AWS-account-id -    A list of AWS account-IDs that the access is restricted to   bound-arn -    A list of full arns that the access is restricted to   bound-role-name -    A list of full role-name that the access is restricted to   bound-role-id -    A list of full role ids that the access is restricted to   bound-resource-id -    A list of full resource ids that the access is restricted to   bound-user-name -    A list of full user-name that the access is restricted to   bound-user-id -    A list of full user ids that the access is restricted to   token -    Access token
 
 ### Example
-
 ```javascript
-import AkeylessVaultApi from 'akeyless_vault_api';
+var AkeylessVaultApi = require('akeyless_vault_api');
 
-let apiInstance = new AkeylessVaultApi.DefaultApi();
-let name = "name_example"; // String | Auth Method name
-let boundAWSAccountId = "boundAWSAccountId_example"; // String | A list of AWS account-IDs that the access is restricted to
-let token = "token_example"; // String | Access token
-let opts = {
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var name = "name_example"; // String | Auth Method name
+
+var boundAWSAccountId = "boundAWSAccountId_example"; // String | A list of AWS account-IDs that the access is restricted to
+
+var token = "token_example"; // String | Access token
+
+var opts = { 
   'accessExpires': "accessExpires_example", // String | Access expiration date in Unix timestamp (select 0 for access without expiry date)
   'boundIps': "boundIps_example", // String | A CIDR whitelist of the IPs that the access is restricted to
   'stsUrl': "stsUrl_example", // String | sts URL
@@ -300,17 +310,18 @@ let opts = {
   'boundUserName': "boundUserName_example", // String | A list of full user-name that the access is restricted to
   'boundUserId': "boundUserId_example" // String | A list of full user ids that the access is restricted to
 };
-apiInstance.createAuthMethodAwsIam(name, boundAWSAccountId, token, opts, (error, data, response) => {
+
+var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-});
+};
+apiInstance.createAuthMethodAwsIam(name, boundAWSAccountId, token, opts, callback);
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -337,12 +348,11 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
-
-## createAuthMethodAzureAd
-
+<a name="createAuthMethodAzureAd"></a>
+# **createAuthMethodAzureAd**
 > ReplyObj createAuthMethodAzureAd(name, boundTenantId, token, opts)
 
 Create a new Auth Method that will be able to authenticate using Azure Active Directory credentials
@@ -350,15 +360,18 @@ Create a new Auth Method that will be able to authenticate using Azure Active Di
 Create a new Auth Method that will be able to authenticate using Azure Active Directory credentials Options:   name -    Auth Method name   access-expires -    Access expiration date in Unix timestamp (select 0 for access without expiry date)   bound-ips -    A CIDR whitelist of the IPs that the access is restricted to   bound-tenant-id -    The Azure tenant id that the access is restricted to   issuer -    Issuer URL   jwks-uri -    The URL to the JSON Web Key Set (JWKS) that containing the public keys that should be used to verify any JSON Web Token (JWT) issued by the authorization server.   audience -    The audience in the JWT   bound-spid -    A list of service principal IDs that the access is restricted to   bound-group-id -    A list of group ids that the access is restricted to   bound-sub-id -    A list of subscription ids that the access is restricted to   bound-rg-id -    A list of resource groups that the access is restricted to   bound-providers -    A list of resource providers that the access is restricted to (e.g, Microsoft.Compute, Microsoft.ManagedIdentity, etc)   bound-resource-types -    A list of resource types that the access is restricted to (e.g, virtualMachines, userAssignedIdentities, etc)   bound-resource-names -    A list of resource names that the access is restricted to (e.g, a virtual machine name, scale set name, etc).   bound-resource-id -    A list of full resource ids that the access is restricted to   token -    Access token
 
 ### Example
-
 ```javascript
-import AkeylessVaultApi from 'akeyless_vault_api';
+var AkeylessVaultApi = require('akeyless_vault_api');
 
-let apiInstance = new AkeylessVaultApi.DefaultApi();
-let name = "name_example"; // String | Auth Method name
-let boundTenantId = "boundTenantId_example"; // String | The Azure tenant id that the access is restricted to
-let token = "token_example"; // String | Access token
-let opts = {
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var name = "name_example"; // String | Auth Method name
+
+var boundTenantId = "boundTenantId_example"; // String | The Azure tenant id that the access is restricted to
+
+var token = "token_example"; // String | Access token
+
+var opts = { 
   'accessExpires': "accessExpires_example", // String | Access expiration date in Unix timestamp (select 0 for access without expiry date)
   'boundIps': "boundIps_example", // String | A CIDR whitelist of the IPs that the access is restricted to
   'issuer': "issuer_example", // String | Issuer URL
@@ -373,17 +386,18 @@ let opts = {
   'boundResourceNames': "boundResourceNames_example", // String | A list of resource names that the access is restricted to (e.g, a virtual machine name, scale set name, etc).
   'boundResourceId': "boundResourceId_example" // String | A list of full resource ids that the access is restricted to
 };
-apiInstance.createAuthMethodAzureAd(name, boundTenantId, token, opts, (error, data, response) => {
+
+var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-});
+};
+apiInstance.createAuthMethodAzureAd(name, boundTenantId, token, opts, callback);
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -414,12 +428,11 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
-
-## createAuthMethodLdap
-
+<a name="createAuthMethodLdap"></a>
+# **createAuthMethodLdap**
 > ReplyObj createAuthMethodLdap(name, publicKeyFilePath, token, opts)
 
 Create a new Auth Method that will be able to authenticate using LDAP
@@ -427,29 +440,33 @@ Create a new Auth Method that will be able to authenticate using LDAP
 Create a new Auth Method that will be able to authenticate using LDAP Options:   name -    Auth Method name   access-expires -    Access expiration date in Unix timestamp (select 0 for access without expiry date)   bound-ips -    A CIDR whitelist of the IPs that the access is restricted to   public-key-file-path -    A public key generated for LDAP authentication method on Akeyless [RSA2048]   token -    Access token
 
 ### Example
-
 ```javascript
-import AkeylessVaultApi from 'akeyless_vault_api';
+var AkeylessVaultApi = require('akeyless_vault_api');
 
-let apiInstance = new AkeylessVaultApi.DefaultApi();
-let name = "name_example"; // String | Auth Method name
-let publicKeyFilePath = "publicKeyFilePath_example"; // String | A public key generated for LDAP authentication method on Akeyless [RSA2048]
-let token = "token_example"; // String | Access token
-let opts = {
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var name = "name_example"; // String | Auth Method name
+
+var publicKeyFilePath = "publicKeyFilePath_example"; // String | A public key generated for LDAP authentication method on Akeyless [RSA2048]
+
+var token = "token_example"; // String | Access token
+
+var opts = { 
   'accessExpires': "accessExpires_example", // String | Access expiration date in Unix timestamp (select 0 for access without expiry date)
   'boundIps': "boundIps_example" // String | A CIDR whitelist of the IPs that the access is restricted to
 };
-apiInstance.createAuthMethodLdap(name, publicKeyFilePath, token, opts, (error, data, response) => {
+
+var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-});
+};
+apiInstance.createAuthMethodLdap(name, publicKeyFilePath, token, opts, callback);
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -469,12 +486,11 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
-
-## createAuthMethodOauth2
-
+<a name="createAuthMethodOauth2"></a>
+# **createAuthMethodOauth2**
 > ReplyObj createAuthMethodOauth2(name, boundClientsIds, issuer, jwksUri, audience, token, opts)
 
 Create a new Auth Method that will be able to authenticate using OpenId/OAuth2
@@ -482,32 +498,39 @@ Create a new Auth Method that will be able to authenticate using OpenId/OAuth2
 Create a new Auth Method that will be able to authenticate using OpenId/OAuth2 Options:   name -    Auth Method name   access-expires -    Access expiration date in Unix timestamp (select 0 for access without expiry date)   bound-ips -    A CIDR whitelist of the IPs that the access is restricted to   bound-clients-ids -    The clients ids that the access is restricted to   issuer -    Issuer URL   jwks-uri -    The URL to the JSON Web Key Set (JWKS) that containing the public keys that should be used to verify any JSON Web Token (JWT) issued by the authorization server.   audience -    The audience in the JWT   token -    Access token
 
 ### Example
-
 ```javascript
-import AkeylessVaultApi from 'akeyless_vault_api';
+var AkeylessVaultApi = require('akeyless_vault_api');
 
-let apiInstance = new AkeylessVaultApi.DefaultApi();
-let name = "name_example"; // String | Auth Method name
-let boundClientsIds = "boundClientsIds_example"; // String | The clients ids that the access is restricted to
-let issuer = "issuer_example"; // String | Issuer URL
-let jwksUri = "jwksUri_example"; // String | The URL to the JSON Web Key Set (JWKS) that containing the public keys that should be used to verify any JSON Web Token (JWT) issued by the authorization server.
-let audience = "audience_example"; // String | The audience in the JWT
-let token = "token_example"; // String | Access token
-let opts = {
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var name = "name_example"; // String | Auth Method name
+
+var boundClientsIds = "boundClientsIds_example"; // String | The clients ids that the access is restricted to
+
+var issuer = "issuer_example"; // String | Issuer URL
+
+var jwksUri = "jwksUri_example"; // String | The URL to the JSON Web Key Set (JWKS) that containing the public keys that should be used to verify any JSON Web Token (JWT) issued by the authorization server.
+
+var audience = "audience_example"; // String | The audience in the JWT
+
+var token = "token_example"; // String | Access token
+
+var opts = { 
   'accessExpires': "accessExpires_example", // String | Access expiration date in Unix timestamp (select 0 for access without expiry date)
   'boundIps': "boundIps_example" // String | A CIDR whitelist of the IPs that the access is restricted to
 };
-apiInstance.createAuthMethodOauth2(name, boundClientsIds, issuer, jwksUri, audience, token, opts, (error, data, response) => {
+
+var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-});
+};
+apiInstance.createAuthMethodOauth2(name, boundClientsIds, issuer, jwksUri, audience, token, opts, callback);
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -530,12 +553,11 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
-
-## createAuthMethodSaml
-
+<a name="createAuthMethodSaml"></a>
+# **createAuthMethodSaml**
 > ReplyObj createAuthMethodSaml(name, idpMetadataUrl, token, opts)
 
 Create a new Auth Method that will be able to authenticate using SAML
@@ -543,29 +565,33 @@ Create a new Auth Method that will be able to authenticate using SAML
 Create a new Auth Method that will be able to authenticate using SAML Options:   name -    Auth Method name   access-expires -    Access expiration date in Unix timestamp (select 0 for access without expiry date)   bound-ips -    A CIDR whitelist of the IPs that the access is restricted to   idp-metadata-url -    IDP metadata url   token -    Access token
 
 ### Example
-
 ```javascript
-import AkeylessVaultApi from 'akeyless_vault_api';
+var AkeylessVaultApi = require('akeyless_vault_api');
 
-let apiInstance = new AkeylessVaultApi.DefaultApi();
-let name = "name_example"; // String | Auth Method name
-let idpMetadataUrl = "idpMetadataUrl_example"; // String | IDP metadata url
-let token = "token_example"; // String | Access token
-let opts = {
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var name = "name_example"; // String | Auth Method name
+
+var idpMetadataUrl = "idpMetadataUrl_example"; // String | IDP metadata url
+
+var token = "token_example"; // String | Access token
+
+var opts = { 
   'accessExpires': "accessExpires_example", // String | Access expiration date in Unix timestamp (select 0 for access without expiry date)
   'boundIps': "boundIps_example" // String | A CIDR whitelist of the IPs that the access is restricted to
 };
-apiInstance.createAuthMethodSaml(name, idpMetadataUrl, token, opts, (error, data, response) => {
+
+var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-});
+};
+apiInstance.createAuthMethodSaml(name, idpMetadataUrl, token, opts, callback);
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -585,12 +611,11 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
-
-## createDynamicSecret
-
+<a name="createDynamicSecret"></a>
+# **createDynamicSecret**
 > ReplyObj createDynamicSecret(name, token, opts)
 
 Creates a new dynamic secret item
@@ -598,28 +623,31 @@ Creates a new dynamic secret item
 Creates a new dynamic secret item Options:   name -    Dynamic secret name   metadata -    Metadata about the dynamic secret   key -    The name of a key that used to encrypt the dynamic secret values (if empty, the account default protectionKey key will be used)   token -    Access token
 
 ### Example
-
 ```javascript
-import AkeylessVaultApi from 'akeyless_vault_api';
+var AkeylessVaultApi = require('akeyless_vault_api');
 
-let apiInstance = new AkeylessVaultApi.DefaultApi();
-let name = "name_example"; // String | Dynamic secret name
-let token = "token_example"; // String | Access token
-let opts = {
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var name = "name_example"; // String | Dynamic secret name
+
+var token = "token_example"; // String | Access token
+
+var opts = { 
   'metadata': "metadata_example", // String | Metadata about the dynamic secret
   'key': "key_example" // String | The name of a key that used to encrypt the dynamic secret values (if empty, the account default protectionKey key will be used)
 };
-apiInstance.createDynamicSecret(name, token, opts, (error, data, response) => {
+
+var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-});
+};
+apiInstance.createDynamicSecret(name, token, opts, callback);
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -638,12 +666,11 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
-
-## createKey
-
+<a name="createKey"></a>
+# **createKey**
 > ReplyObj createKey(name, alg, token, opts)
 
 Creates a new key
@@ -651,30 +678,34 @@ Creates a new key
 Creates a new key Options:   name -    Key name   alg -    Key type. options- [AES128GCM, AES256GCM, AES128SIV, AES256SIV, RSA1024, RSA2048]   metadata -    Metadata about the key   split-level -    The number of fragments that the item will be split into (not includes customer fragment)   customer-frg-id -    The customer fragment ID that will be used to create the key (if empty, the key will be created independently of a customer fragment)   token -    Access token
 
 ### Example
-
 ```javascript
-import AkeylessVaultApi from 'akeyless_vault_api';
+var AkeylessVaultApi = require('akeyless_vault_api');
 
-let apiInstance = new AkeylessVaultApi.DefaultApi();
-let name = "name_example"; // String | Key name
-let alg = "alg_example"; // String | Key type. options- [AES128GCM, AES256GCM, AES128SIV, AES256SIV, RSA1024, RSA2048]
-let token = "token_example"; // String | Access token
-let opts = {
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var name = "name_example"; // String | Key name
+
+var alg = "alg_example"; // String | Key type. options- [AES128GCM, AES256GCM, AES128SIV, AES256SIV, RSA1024, RSA2048]
+
+var token = "token_example"; // String | Access token
+
+var opts = { 
   'metadata': "metadata_example", // String | Metadata about the key
   'splitLevel': "splitLevel_example", // String | The number of fragments that the item will be split into (not includes customer fragment)
   'customerFrgId': "customerFrgId_example" // String | The customer fragment ID that will be used to create the key (if empty, the key will be created independently of a customer fragment)
 };
-apiInstance.createKey(name, alg, token, opts, (error, data, response) => {
+
+var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-});
+};
+apiInstance.createKey(name, alg, token, opts, callback);
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -695,12 +726,11 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
-
-## createPkiCertIssuer
-
+<a name="createPkiCertIssuer"></a>
+# **createPkiCertIssuer**
 > ReplyObj createPkiCertIssuer(name, signerKeyName, ttl, token, opts)
 
 Creates a new PKI certificate issuer
@@ -708,16 +738,20 @@ Creates a new PKI certificate issuer
 Creates a new PKI certificate issuer Options:   name -    PKI certificate issuer name   signer-key-name -    A key to sign the certificate with   allowed-domains -    A list of the allowed domains that clients can request to be included in the certificate (in a comma-delimited list)   allowed-uri-sans -    A list of the allowed URIs that clients can request to be included in the certificate as part of the URI Subject Alternative Names (in a comma-delimited list)   allow-subdomains -    If set, clients can request certificates for subdomains and wildcard subdomains of the allowed domains   not-enforce-hostnames -    If set, any names are allowed for CN and SANs in the certificate and not only a valid host name   allow-any-name -    If set, clients can request certificates for any CN   not-require-cn -    If set, clients can request certificates without a CN   server-flag -    If set, certificates will be flagged for server auth use   client-flag -    If set, certificates will be flagged for client auth use   code-signing-flag -    If set, certificates will be flagged for code signing use   key-usage -    A comma-separated string or list of key usages   organization-units -    A comma-separated list of organizational units (OU) that will be set in the issued certificate   organizations -    A comma-separated list of organizations (O) that will be set in the issued certificate   country -    A comma-separated list of the country that will be set in the issued certificate   locality -    A comma-separated list of the locality that will be set in the issued certificate   province -    A comma-separated list of the province that will be set in the issued certificate   street-address -    A comma-separated list of the street address that will be set in the issued certificate   postal-code -    A comma-separated list of the postal code that will be set in the issued certificate   ttl -    The requested Time To Live for the certificate, use second units   metadata -    A metadata about the issuer   token -    Access token
 
 ### Example
-
 ```javascript
-import AkeylessVaultApi from 'akeyless_vault_api';
+var AkeylessVaultApi = require('akeyless_vault_api');
 
-let apiInstance = new AkeylessVaultApi.DefaultApi();
-let name = "name_example"; // String | PKI certificate issuer name
-let signerKeyName = "signerKeyName_example"; // String | A key to sign the certificate with
-let ttl = "ttl_example"; // String | The requested Time To Live for the certificate, use second units
-let token = "token_example"; // String | Access token
-let opts = {
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var name = "name_example"; // String | PKI certificate issuer name
+
+var signerKeyName = "signerKeyName_example"; // String | A key to sign the certificate with
+
+var ttl = "ttl_example"; // String | The requested Time To Live for the certificate, use second units
+
+var token = "token_example"; // String | Access token
+
+var opts = { 
   'allowedDomains': "allowedDomains_example", // String | A list of the allowed domains that clients can request to be included in the certificate (in a comma-delimited list)
   'allowedUriSans': "allowedUriSans_example", // String | A list of the allowed URIs that clients can request to be included in the certificate as part of the URI Subject Alternative Names (in a comma-delimited list)
   'allowSubdomains': "allowSubdomains_example", // String | If set, clients can request certificates for subdomains and wildcard subdomains of the allowed domains
@@ -737,17 +771,18 @@ let opts = {
   'postalCode': "postalCode_example", // String | A comma-separated list of the postal code that will be set in the issued certificate
   'metadata': "metadata_example" // String | A metadata about the issuer
 };
-apiInstance.createPkiCertIssuer(name, signerKeyName, ttl, token, opts, (error, data, response) => {
+
+var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-});
+};
+apiInstance.createPkiCertIssuer(name, signerKeyName, ttl, token, opts, callback);
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -784,12 +819,11 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
-
-## createRole
-
+<a name="createRole"></a>
+# **createRole**
 > ReplyObj createRole(name, token, opts)
 
 Creates a new role
@@ -797,27 +831,30 @@ Creates a new role
 Creates a new role Options:   name -    Role name   comment -    Comment about the role   token -    Access token
 
 ### Example
-
 ```javascript
-import AkeylessVaultApi from 'akeyless_vault_api';
+var AkeylessVaultApi = require('akeyless_vault_api');
 
-let apiInstance = new AkeylessVaultApi.DefaultApi();
-let name = "name_example"; // String | Role name
-let token = "token_example"; // String | Access token
-let opts = {
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var name = "name_example"; // String | Role name
+
+var token = "token_example"; // String | Access token
+
+var opts = { 
   'comment': "comment_example" // String | Comment about the role
 };
-apiInstance.createRole(name, token, opts, (error, data, response) => {
+
+var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-});
+};
+apiInstance.createRole(name, token, opts, callback);
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -835,43 +872,46 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
-
-## createSecret
-
+<a name="createSecret"></a>
+# **createSecret**
 > ReplyObj createSecret(name, value, token, opts)
 
 Creates a new secret item
 
-Creates a new secret item Options:   name -    Secret name   value -    The secret value   metadata -    Metadata about the secret   key -    The name of a key that used to encrypt the secret value (if empty, the account default protectionKey key will be used)   multiline -    The provided value is a multiline value (separated by &#39;\\n&#39;)   token -    Access token
+Creates a new secret item Options:   name -    Secret name   value -    The secret value   metadata -    Metadata about the secret   key -    The name of a key that used to encrypt the secret value (if empty, the account default protectionKey key will be used)   multiline -    The provided value is a multiline value (separated by '\\n')   token -    Access token
 
 ### Example
-
 ```javascript
-import AkeylessVaultApi from 'akeyless_vault_api';
+var AkeylessVaultApi = require('akeyless_vault_api');
 
-let apiInstance = new AkeylessVaultApi.DefaultApi();
-let name = "name_example"; // String | Secret name
-let value = "value_example"; // String | The secret value
-let token = "token_example"; // String | Access token
-let opts = {
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var name = "name_example"; // String | Secret name
+
+var value = "value_example"; // String | The secret value
+
+var token = "token_example"; // String | Access token
+
+var opts = { 
   'metadata': "metadata_example", // String | Metadata about the secret
   'key': "key_example", // String | The name of a key that used to encrypt the secret value (if empty, the account default protectionKey key will be used)
   'multiline': true // Boolean | The provided value is a multiline value (separated by '\\n')
 };
-apiInstance.createSecret(name, value, token, opts, (error, data, response) => {
+
+var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-});
+};
+apiInstance.createSecret(name, value, token, opts, callback);
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -880,7 +920,7 @@ Name | Type | Description  | Notes
  **token** | **String**| Access token | 
  **metadata** | **String**| Metadata about the secret | [optional] 
  **key** | **String**| The name of a key that used to encrypt the secret value (if empty, the account default protectionKey key will be used) | [optional] 
- **multiline** | **Boolean**| The provided value is a multiline value (separated by &#39;\\n&#39;) | [optional] 
+ **multiline** | **Boolean**| The provided value is a multiline value (separated by '\\n') | [optional] 
 
 ### Return type
 
@@ -892,45 +932,50 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
-
-## createSshCertIssuer
-
+<a name="createSshCertIssuer"></a>
+# **createSshCertIssuer**
 > ReplyObj createSshCertIssuer(name, signerKeyName, allowedUsers, ttl, token, opts)
 
 Creates a new SSH certificate issuer
 
-Creates a new SSH certificate issuer Options:   name -    SSH certificate issuer name   signer-key-name -    A key to sign the certificate with   allowed-users -    Users allowed to fetch the certificate, ex. root,ubuntu   principals -    Signed certificates with principal, ex. example_role1,example_role2   extensions -    Signed certificates with extensions, ex. permit-port-forwarding&#x3D;\&quot;\&quot;   ttl -    The requested Time To Live for the certificate, use second units   metadata -    A metadata about the issuer   token -    Access token
+Creates a new SSH certificate issuer Options:   name -    SSH certificate issuer name   signer-key-name -    A key to sign the certificate with   allowed-users -    Users allowed to fetch the certificate, ex. root,ubuntu   principals -    Signed certificates with principal, ex. example_role1,example_role2   extensions -    Signed certificates with extensions, ex. permit-port-forwarding=\"\"   ttl -    The requested Time To Live for the certificate, use second units   metadata -    A metadata about the issuer   token -    Access token
 
 ### Example
-
 ```javascript
-import AkeylessVaultApi from 'akeyless_vault_api';
+var AkeylessVaultApi = require('akeyless_vault_api');
 
-let apiInstance = new AkeylessVaultApi.DefaultApi();
-let name = "name_example"; // String | SSH certificate issuer name
-let signerKeyName = "signerKeyName_example"; // String | A key to sign the certificate with
-let allowedUsers = "allowedUsers_example"; // String | Users allowed to fetch the certificate, ex. root,ubuntu
-let ttl = "ttl_example"; // String | The requested Time To Live for the certificate, use second units
-let token = "token_example"; // String | Access token
-let opts = {
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var name = "name_example"; // String | SSH certificate issuer name
+
+var signerKeyName = "signerKeyName_example"; // String | A key to sign the certificate with
+
+var allowedUsers = "allowedUsers_example"; // String | Users allowed to fetch the certificate, ex. root,ubuntu
+
+var ttl = "ttl_example"; // String | The requested Time To Live for the certificate, use second units
+
+var token = "token_example"; // String | Access token
+
+var opts = { 
   'principals': "principals_example", // String | Signed certificates with principal, ex. example_role1,example_role2
   'extensions': "extensions_example", // String | Signed certificates with extensions, ex. permit-port-forwarding=\"\"
   'metadata': "metadata_example" // String | A metadata about the issuer
 };
-apiInstance.createSshCertIssuer(name, signerKeyName, allowedUsers, ttl, token, opts, (error, data, response) => {
+
+var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-});
+};
+apiInstance.createSshCertIssuer(name, signerKeyName, allowedUsers, ttl, token, opts, callback);
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -940,7 +985,7 @@ Name | Type | Description  | Notes
  **ttl** | **String**| The requested Time To Live for the certificate, use second units | 
  **token** | **String**| Access token | 
  **principals** | **String**| Signed certificates with principal, ex. example_role1,example_role2 | [optional] 
- **extensions** | **String**| Signed certificates with extensions, ex. permit-port-forwarding&#x3D;\&quot;\&quot; | [optional] 
+ **extensions** | **String**| Signed certificates with extensions, ex. permit-port-forwarding=\"\" | [optional] 
  **metadata** | **String**| A metadata about the issuer | [optional] 
 
 ### Return type
@@ -953,12 +998,11 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
-
-## decrypt
-
+<a name="decrypt"></a>
+# **decrypt**
 > ReplyObj decrypt(keyName, ciphertext, token, opts)
 
 Decrypts ciphertext into plaintext by using an AES key
@@ -966,28 +1010,32 @@ Decrypts ciphertext into plaintext by using an AES key
 Decrypts ciphertext into plaintext by using an AES key Options:   key-name -    The name of the key to use in the decryption process   ciphertext -    Ciphertext to be decrypted in base64 encoded format   encryption-context -    The encryption context. If this was specified in the encrypt command, it must be specified here or the decryption operation will fail   token -    Access token
 
 ### Example
-
 ```javascript
-import AkeylessVaultApi from 'akeyless_vault_api';
+var AkeylessVaultApi = require('akeyless_vault_api');
 
-let apiInstance = new AkeylessVaultApi.DefaultApi();
-let keyName = "keyName_example"; // String | The name of the key to use in the decryption process
-let ciphertext = "ciphertext_example"; // String | Ciphertext to be decrypted in base64 encoded format
-let token = "token_example"; // String | Access token
-let opts = {
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var keyName = "keyName_example"; // String | The name of the key to use in the decryption process
+
+var ciphertext = "ciphertext_example"; // String | Ciphertext to be decrypted in base64 encoded format
+
+var token = "token_example"; // String | Access token
+
+var opts = { 
   'encryptionContext': "encryptionContext_example" // String | The encryption context. If this was specified in the encrypt command, it must be specified here or the decryption operation will fail
 };
-apiInstance.decrypt(keyName, ciphertext, token, opts, (error, data, response) => {
+
+var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-});
+};
+apiInstance.decrypt(keyName, ciphertext, token, opts, callback);
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -1006,12 +1054,11 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
-
-## decryptFile
-
+<a name="decryptFile"></a>
+# **decryptFile**
 > ReplyObj decryptFile(keyName, _in, token, opts)
 
 Decrypts a file by using an AES key
@@ -1019,29 +1066,33 @@ Decrypts a file by using an AES key
 Decrypts a file by using an AES key Options:   key-name -    The name of the key to use in the decryption process   in -    Path to the file to be decrypted. If not provided, the content will be taken from stdin   out -    Path to the output file. If not provided, the output will be sent to stdout   encryption-context -    The encryption context. If this was specified in the encrypt command, it must be specified here or the decryption operation will fail   token -    Access token
 
 ### Example
-
 ```javascript
-import AkeylessVaultApi from 'akeyless_vault_api';
+var AkeylessVaultApi = require('akeyless_vault_api');
 
-let apiInstance = new AkeylessVaultApi.DefaultApi();
-let keyName = "keyName_example"; // String | The name of the key to use in the decryption process
-let _in = "_in_example"; // String | Path to the file to be decrypted. If not provided, the content will be taken from stdin
-let token = "token_example"; // String | Access token
-let opts = {
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var keyName = "keyName_example"; // String | The name of the key to use in the decryption process
+
+var _in = "_in_example"; // String | Path to the file to be decrypted. If not provided, the content will be taken from stdin
+
+var token = "token_example"; // String | Access token
+
+var opts = { 
   'out': "out_example", // String | Path to the output file. If not provided, the output will be sent to stdout
   'encryptionContext': "encryptionContext_example" // String | The encryption context. If this was specified in the encrypt command, it must be specified here or the decryption operation will fail
 };
-apiInstance.decryptFile(keyName, _in, token, opts, (error, data, response) => {
+
+var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-});
+};
+apiInstance.decryptFile(keyName, _in, token, opts, callback);
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -1061,12 +1112,11 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
-
-## decryptPkcs1
-
+<a name="decryptPkcs1"></a>
+# **decryptPkcs1**
 > ReplyObj decryptPkcs1(keyName, ciphertext, token)
 
 Decrypts a plaintext using RSA and the padding scheme from PKCS#1 v1.5
@@ -1074,25 +1124,29 @@ Decrypts a plaintext using RSA and the padding scheme from PKCS#1 v1.5
 Decrypts a plaintext using RSA and the padding scheme from PKCS#1 v1.5 Options:   key-name -    The name of the RSA key to use in the decryption process   ciphertext -    Ciphertext to be decrypted in base64 encoded format   token -    Access token
 
 ### Example
-
 ```javascript
-import AkeylessVaultApi from 'akeyless_vault_api';
+var AkeylessVaultApi = require('akeyless_vault_api');
 
-let apiInstance = new AkeylessVaultApi.DefaultApi();
-let keyName = "keyName_example"; // String | The name of the RSA key to use in the decryption process
-let ciphertext = "ciphertext_example"; // String | Ciphertext to be decrypted in base64 encoded format
-let token = "token_example"; // String | Access token
-apiInstance.decryptPkcs1(keyName, ciphertext, token, (error, data, response) => {
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var keyName = "keyName_example"; // String | The name of the RSA key to use in the decryption process
+
+var ciphertext = "ciphertext_example"; // String | Ciphertext to be decrypted in base64 encoded format
+
+var token = "token_example"; // String | Access token
+
+
+var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-});
+};
+apiInstance.decryptPkcs1(keyName, ciphertext, token, callback);
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -1110,12 +1164,11 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
-
-## deleteAssoc
-
+<a name="deleteAssoc"></a>
+# **deleteAssoc**
 > ReplyObj deleteAssoc(assocId, token)
 
 Delete an association between role and auth method
@@ -1123,24 +1176,27 @@ Delete an association between role and auth method
 Delete an association between role and auth method Options:   assoc-id -    The association id to be deleted   token -    Access token
 
 ### Example
-
 ```javascript
-import AkeylessVaultApi from 'akeyless_vault_api';
+var AkeylessVaultApi = require('akeyless_vault_api');
 
-let apiInstance = new AkeylessVaultApi.DefaultApi();
-let assocId = "assocId_example"; // String | The association id to be deleted
-let token = "token_example"; // String | Access token
-apiInstance.deleteAssoc(assocId, token, (error, data, response) => {
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var assocId = "assocId_example"; // String | The association id to be deleted
+
+var token = "token_example"; // String | Access token
+
+
+var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-});
+};
+apiInstance.deleteAssoc(assocId, token, callback);
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -1157,12 +1213,11 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
-
-## deleteAuthMethod
-
+<a name="deleteAuthMethod"></a>
+# **deleteAuthMethod**
 > ReplyObj deleteAuthMethod(name, token)
 
 Delete the Auth Method
@@ -1170,24 +1225,27 @@ Delete the Auth Method
 Delete the Auth Method Options:   name -    Auth Method name   token -    Access token
 
 ### Example
-
 ```javascript
-import AkeylessVaultApi from 'akeyless_vault_api';
+var AkeylessVaultApi = require('akeyless_vault_api');
 
-let apiInstance = new AkeylessVaultApi.DefaultApi();
-let name = "name_example"; // String | Auth Method name
-let token = "token_example"; // String | Access token
-apiInstance.deleteAuthMethod(name, token, (error, data, response) => {
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var name = "name_example"; // String | Auth Method name
+
+var token = "token_example"; // String | Access token
+
+
+var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-});
+};
+apiInstance.deleteAuthMethod(name, token, callback);
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -1204,12 +1262,11 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
-
-## deleteItem
-
+<a name="deleteItem"></a>
+# **deleteItem**
 > ReplyObj deleteItem(name, token)
 
 Delete an item
@@ -1217,24 +1274,27 @@ Delete an item
 Delete an item Options:   name -    Item name   token -    Access token
 
 ### Example
-
 ```javascript
-import AkeylessVaultApi from 'akeyless_vault_api';
+var AkeylessVaultApi = require('akeyless_vault_api');
 
-let apiInstance = new AkeylessVaultApi.DefaultApi();
-let name = "name_example"; // String | Item name
-let token = "token_example"; // String | Access token
-apiInstance.deleteItem(name, token, (error, data, response) => {
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var name = "name_example"; // String | Item name
+
+var token = "token_example"; // String | Access token
+
+
+var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-});
+};
+apiInstance.deleteItem(name, token, callback);
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -1251,12 +1311,11 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
-
-## deleteRole
-
+<a name="deleteRole"></a>
+# **deleteRole**
 > ReplyObj deleteRole(name, token)
 
 Delete a role
@@ -1264,24 +1323,27 @@ Delete a role
 Delete a role Options:   name -    Role name   token -    Access token
 
 ### Example
-
 ```javascript
-import AkeylessVaultApi from 'akeyless_vault_api';
+var AkeylessVaultApi = require('akeyless_vault_api');
 
-let apiInstance = new AkeylessVaultApi.DefaultApi();
-let name = "name_example"; // String | Role name
-let token = "token_example"; // String | Access token
-apiInstance.deleteRole(name, token, (error, data, response) => {
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var name = "name_example"; // String | Role name
+
+var token = "token_example"; // String | Access token
+
+
+var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-});
+};
+apiInstance.deleteRole(name, token, callback);
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -1298,12 +1360,11 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
-
-## deleteRoleRule
-
+<a name="deleteRoleRule"></a>
+# **deleteRoleRule**
 > ReplyObj deleteRoleRule(roleName, path, token)
 
 Delete a rule from a role
@@ -1311,25 +1372,29 @@ Delete a rule from a role
 Delete a rule from a role Options:   role-name -    The role name to be updated   path -    The path the rule refers to   token -    Access token
 
 ### Example
-
 ```javascript
-import AkeylessVaultApi from 'akeyless_vault_api';
+var AkeylessVaultApi = require('akeyless_vault_api');
 
-let apiInstance = new AkeylessVaultApi.DefaultApi();
-let roleName = "roleName_example"; // String | The role name to be updated
-let path = "path_example"; // String | The path the rule refers to
-let token = "token_example"; // String | Access token
-apiInstance.deleteRoleRule(roleName, path, token, (error, data, response) => {
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var roleName = "roleName_example"; // String | The role name to be updated
+
+var path = "path_example"; // String | The path the rule refers to
+
+var token = "token_example"; // String | Access token
+
+
+var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-});
+};
+apiInstance.deleteRoleRule(roleName, path, token, callback);
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -1347,12 +1412,11 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
-
-## describeItem
-
+<a name="describeItem"></a>
+# **describeItem**
 > ReplyObj describeItem(name, token)
 
 Returns the item details
@@ -1360,24 +1424,27 @@ Returns the item details
 Returns the item details Options:   name -    Item name   token -    Access token
 
 ### Example
-
 ```javascript
-import AkeylessVaultApi from 'akeyless_vault_api';
+var AkeylessVaultApi = require('akeyless_vault_api');
 
-let apiInstance = new AkeylessVaultApi.DefaultApi();
-let name = "name_example"; // String | Item name
-let token = "token_example"; // String | Access token
-apiInstance.describeItem(name, token, (error, data, response) => {
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var name = "name_example"; // String | Item name
+
+var token = "token_example"; // String | Access token
+
+
+var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-});
+};
+apiInstance.describeItem(name, token, callback);
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -1394,12 +1461,11 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
-
-## encrypt
-
+<a name="encrypt"></a>
+# **encrypt**
 > ReplyObj encrypt(keyName, plaintext, token, opts)
 
 Encrypts plaintext into ciphertext by using an AES key
@@ -1407,28 +1473,32 @@ Encrypts plaintext into ciphertext by using an AES key
 Encrypts plaintext into ciphertext by using an AES key Options:   key-name -    The name of the key to use in the encryption process   plaintext -    Data to be encrypted   encryption-context -    name-value pair that specifies the encryption context to be used for authenticated encryption. If used here, the same value must be supplied to the decrypt command or decryption will fail   token -    Access token
 
 ### Example
-
 ```javascript
-import AkeylessVaultApi from 'akeyless_vault_api';
+var AkeylessVaultApi = require('akeyless_vault_api');
 
-let apiInstance = new AkeylessVaultApi.DefaultApi();
-let keyName = "keyName_example"; // String | The name of the key to use in the encryption process
-let plaintext = "plaintext_example"; // String | Data to be encrypted
-let token = "token_example"; // String | Access token
-let opts = {
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var keyName = "keyName_example"; // String | The name of the key to use in the encryption process
+
+var plaintext = "plaintext_example"; // String | Data to be encrypted
+
+var token = "token_example"; // String | Access token
+
+var opts = { 
   'encryptionContext': "encryptionContext_example" // String | name-value pair that specifies the encryption context to be used for authenticated encryption. If used here, the same value must be supplied to the decrypt command or decryption will fail
 };
-apiInstance.encrypt(keyName, plaintext, token, opts, (error, data, response) => {
+
+var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-});
+};
+apiInstance.encrypt(keyName, plaintext, token, opts, callback);
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -1447,12 +1517,11 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
-
-## encryptFile
-
+<a name="encryptFile"></a>
+# **encryptFile**
 > ReplyObj encryptFile(keyName, _in, token, opts)
 
 Encrypts a file by using an AES key
@@ -1460,29 +1529,33 @@ Encrypts a file by using an AES key
 Encrypts a file by using an AES key Options:   key-name -    The name of the key to use in the encryption process   in -    Path to the file to be encrypted. If not provided, the content will be taken from stdin   out -    Path to the output file. If not provided, the output will be sent to stdout   encryption-context -    name-value pair that specifies the encryption context to be used for authenticated encryption. If used here, the same value must be supplied to the decrypt command or decryption will fail   token -    Access token
 
 ### Example
-
 ```javascript
-import AkeylessVaultApi from 'akeyless_vault_api';
+var AkeylessVaultApi = require('akeyless_vault_api');
 
-let apiInstance = new AkeylessVaultApi.DefaultApi();
-let keyName = "keyName_example"; // String | The name of the key to use in the encryption process
-let _in = "_in_example"; // String | Path to the file to be encrypted. If not provided, the content will be taken from stdin
-let token = "token_example"; // String | Access token
-let opts = {
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var keyName = "keyName_example"; // String | The name of the key to use in the encryption process
+
+var _in = "_in_example"; // String | Path to the file to be encrypted. If not provided, the content will be taken from stdin
+
+var token = "token_example"; // String | Access token
+
+var opts = { 
   'out': "out_example", // String | Path to the output file. If not provided, the output will be sent to stdout
   'encryptionContext': "encryptionContext_example" // String | name-value pair that specifies the encryption context to be used for authenticated encryption. If used here, the same value must be supplied to the decrypt command or decryption will fail
 };
-apiInstance.encryptFile(keyName, _in, token, opts, (error, data, response) => {
+
+var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-});
+};
+apiInstance.encryptFile(keyName, _in, token, opts, callback);
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -1502,12 +1575,11 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
-
-## encryptPkcs1
-
+<a name="encryptPkcs1"></a>
+# **encryptPkcs1**
 > ReplyObj encryptPkcs1(keyName, plaintext, token)
 
 Encrypts the given message with RSA and the padding scheme from PKCS#1 v1.5
@@ -1515,25 +1587,29 @@ Encrypts the given message with RSA and the padding scheme from PKCS#1 v1.5
 Encrypts the given message with RSA and the padding scheme from PKCS#1 v1.5 Options:   key-name -    The name of the RSA key to use in the encryption process   plaintext -    Data to be encrypted   token -    Access token
 
 ### Example
-
 ```javascript
-import AkeylessVaultApi from 'akeyless_vault_api';
+var AkeylessVaultApi = require('akeyless_vault_api');
 
-let apiInstance = new AkeylessVaultApi.DefaultApi();
-let keyName = "keyName_example"; // String | The name of the RSA key to use in the encryption process
-let plaintext = "plaintext_example"; // String | Data to be encrypted
-let token = "token_example"; // String | Access token
-apiInstance.encryptPkcs1(keyName, plaintext, token, (error, data, response) => {
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var keyName = "keyName_example"; // String | The name of the RSA key to use in the encryption process
+
+var plaintext = "plaintext_example"; // String | Data to be encrypted
+
+var token = "token_example"; // String | Access token
+
+
+var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-});
+};
+apiInstance.encryptPkcs1(keyName, plaintext, token, callback);
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -1551,12 +1627,11 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
-
-## getAuthMethod
-
+<a name="getAuthMethod"></a>
+# **getAuthMethod**
 > ReplyObj getAuthMethod(name, token)
 
 Returns an information about the Auth Method
@@ -1564,24 +1639,27 @@ Returns an information about the Auth Method
 Returns an information about the Auth Method Options:   name -    Auth Method name   token -    Access token
 
 ### Example
-
 ```javascript
-import AkeylessVaultApi from 'akeyless_vault_api';
+var AkeylessVaultApi = require('akeyless_vault_api');
 
-let apiInstance = new AkeylessVaultApi.DefaultApi();
-let name = "name_example"; // String | Auth Method name
-let token = "token_example"; // String | Access token
-apiInstance.getAuthMethod(name, token, (error, data, response) => {
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var name = "name_example"; // String | Auth Method name
+
+var token = "token_example"; // String | Access token
+
+
+var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-});
+};
+apiInstance.getAuthMethod(name, token, callback);
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -1598,44 +1676,47 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
-
-## getCloudIdentity
-
+<a name="getCloudIdentity"></a>
+# **getCloudIdentity**
 > ReplyObj getCloudIdentity(token, opts)
 
-Get Cloud Identity Token (relevant only for access-type&#x3D;azure_ad,aws_iam)
+Get Cloud Identity Token (relevant only for access-type=azure_ad,aws_iam)
 
-Get Cloud Identity Token (relevant only for access-type&#x3D;azure_ad,aws_iam) Options:   azure_ad_object_id -    Azure Active Directory ObjectId (relevant only for access-type&#x3D;azure_ad)   token -    Access token
+Get Cloud Identity Token (relevant only for access-type=azure_ad,aws_iam) Options:   azure_ad_object_id -    Azure Active Directory ObjectId (relevant only for access-type=azure_ad)   url_safe -    escapes the token so it can be safely placed inside a URL query   token -    Access token
 
 ### Example
-
 ```javascript
-import AkeylessVaultApi from 'akeyless_vault_api';
+var AkeylessVaultApi = require('akeyless_vault_api');
 
-let apiInstance = new AkeylessVaultApi.DefaultApi();
-let token = "token_example"; // String | Access token
-let opts = {
-  'azureAdObjectId': "azureAdObjectId_example" // String | Azure Active Directory ObjectId (relevant only for access-type=azure_ad)
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var token = "token_example"; // String | Access token
+
+var opts = { 
+  'azureAdObjectId': "azureAdObjectId_example", // String | Azure Active Directory ObjectId (relevant only for access-type=azure_ad)
+  'urlSafe': "urlSafe_example" // String | escapes the token so it can be safely placed inside a URL query
 };
-apiInstance.getCloudIdentity(token, opts, (error, data, response) => {
+
+var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-});
+};
+apiInstance.getCloudIdentity(token, opts, callback);
 ```
 
 ### Parameters
 
-
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **token** | **String**| Access token | 
- **azureAdObjectId** | **String**| Azure Active Directory ObjectId (relevant only for access-type&#x3D;azure_ad) | [optional] 
+ **azureAdObjectId** | **String**| Azure Active Directory ObjectId (relevant only for access-type=azure_ad) | [optional] 
+ **urlSafe** | **String**| escapes the token so it can be safely placed inside a URL query | [optional] 
 
 ### Return type
 
@@ -1647,12 +1728,11 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
-
-## getDynamicSecretValue
-
+<a name="getDynamicSecretValue"></a>
+# **getDynamicSecretValue**
 > ReplyObj getDynamicSecretValue(name, token)
 
 Get dynamic secret value
@@ -1660,24 +1740,27 @@ Get dynamic secret value
 Get dynamic secret value Options:   name -    Dynamic secret name   token -    Access token
 
 ### Example
-
 ```javascript
-import AkeylessVaultApi from 'akeyless_vault_api';
+var AkeylessVaultApi = require('akeyless_vault_api');
 
-let apiInstance = new AkeylessVaultApi.DefaultApi();
-let name = "name_example"; // String | Dynamic secret name
-let token = "token_example"; // String | Access token
-apiInstance.getDynamicSecretValue(name, token, (error, data, response) => {
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var name = "name_example"; // String | Dynamic secret name
+
+var token = "token_example"; // String | Access token
+
+
+var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-});
+};
+apiInstance.getDynamicSecretValue(name, token, callback);
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -1694,49 +1777,52 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
+<a name="getKubeExecCreds"></a>
+# **getKubeExecCreds**
+> ReplyObj getKubeExecCreds(certIssuerName, keyFilePath, token, opts)
 
-## getPkiCertificate
+Get credentials for authentication with Kubernetes cluster based on a PKI Cert Issuer
 
-> ReplyObj getPkiCertificate(certIssuerName, publicKeyFilePath, token, opts)
-
-Generates PKI certificate
-
-Generates PKI certificate Options:   cert-issuer-name -    The name of the PKI certificate issuer   public-key-file-path -    Public key path   common-name -    The common name to be included in the PKI certificate   alt-names -    The Subject Alternative Names to be included in the PKI certificate (in a comma-delimited list)   uri-sans -    The URI Subject Alternative Names to be included in the PKI certificate (in a comma-delimited list)   outfile -    Output file path with the certificate. If not provided, the file with the certificate will be created in the same location of the provided public key with the -cert extension   token -    Access token
+Get credentials for authentication with Kubernetes cluster based on a PKI Cert Issuer Options:   cert-issuer-name -    The name of the PKI certificate issuer   key-file-path -    The client public or private key file path (in case of a private key, it will be use to extract the public key)   common-name -    The common name to be included in the PKI certificate   alt-names -    The Subject Alternative Names to be included in the PKI certificate (in a comma-delimited list)   uri-sans -    The URI Subject Alternative Names to be included in the PKI certificate (in a comma-delimited list)   outfile -    Output file path with the certificate. If not provided, the file with the certificate will be created in the same location of the provided public key with the -cert extension   token -    Access token
 
 ### Example
-
 ```javascript
-import AkeylessVaultApi from 'akeyless_vault_api';
+var AkeylessVaultApi = require('akeyless_vault_api');
 
-let apiInstance = new AkeylessVaultApi.DefaultApi();
-let certIssuerName = "certIssuerName_example"; // String | The name of the PKI certificate issuer
-let publicKeyFilePath = "publicKeyFilePath_example"; // String | Public key path
-let token = "token_example"; // String | Access token
-let opts = {
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var certIssuerName = "certIssuerName_example"; // String | The name of the PKI certificate issuer
+
+var keyFilePath = "keyFilePath_example"; // String | The client public or private key file path (in case of a private key, it will be use to extract the public key)
+
+var token = "token_example"; // String | Access token
+
+var opts = { 
   'commonName': "commonName_example", // String | The common name to be included in the PKI certificate
   'altNames': "altNames_example", // String | The Subject Alternative Names to be included in the PKI certificate (in a comma-delimited list)
   'uriSans': "uriSans_example", // String | The URI Subject Alternative Names to be included in the PKI certificate (in a comma-delimited list)
   'outfile': "outfile_example" // String | Output file path with the certificate. If not provided, the file with the certificate will be created in the same location of the provided public key with the -cert extension
 };
-apiInstance.getPkiCertificate(certIssuerName, publicKeyFilePath, token, opts, (error, data, response) => {
+
+var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-});
+};
+apiInstance.getKubeExecCreds(certIssuerName, keyFilePath, token, opts, callback);
 ```
 
 ### Parameters
 
-
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **certIssuerName** | **String**| The name of the PKI certificate issuer | 
- **publicKeyFilePath** | **String**| Public key path | 
+ **keyFilePath** | **String**| The client public or private key file path (in case of a private key, it will be use to extract the public key) | 
  **token** | **String**| Access token | 
  **commonName** | **String**| The common name to be included in the PKI certificate | [optional] 
  **altNames** | **String**| The Subject Alternative Names to be included in the PKI certificate (in a comma-delimited list) | [optional] 
@@ -1753,12 +1839,73 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
+<a name="getPkiCertificate"></a>
+# **getPkiCertificate**
+> ReplyObj getPkiCertificate(certIssuerName, keyFilePath, token, opts)
 
-## getRole
+Generates PKI certificate
 
+Generates PKI certificate Options:   cert-issuer-name -    The name of the PKI certificate issuer   key-file-path -    The client public or private key file path (in case of a private key, it will be use to extract the public key)   common-name -    The common name to be included in the PKI certificate   alt-names -    The Subject Alternative Names to be included in the PKI certificate (in a comma-delimited list)   uri-sans -    The URI Subject Alternative Names to be included in the PKI certificate (in a comma-delimited list)   outfile -    Output file path with the certificate. If not provided, the file with the certificate will be created in the same location of the provided public key with the -cert extension   token -    Access token
+
+### Example
+```javascript
+var AkeylessVaultApi = require('akeyless_vault_api');
+
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var certIssuerName = "certIssuerName_example"; // String | The name of the PKI certificate issuer
+
+var keyFilePath = "keyFilePath_example"; // String | The client public or private key file path (in case of a private key, it will be use to extract the public key)
+
+var token = "token_example"; // String | Access token
+
+var opts = { 
+  'commonName': "commonName_example", // String | The common name to be included in the PKI certificate
+  'altNames': "altNames_example", // String | The Subject Alternative Names to be included in the PKI certificate (in a comma-delimited list)
+  'uriSans': "uriSans_example", // String | The URI Subject Alternative Names to be included in the PKI certificate (in a comma-delimited list)
+  'outfile': "outfile_example" // String | Output file path with the certificate. If not provided, the file with the certificate will be created in the same location of the provided public key with the -cert extension
+};
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+apiInstance.getPkiCertificate(certIssuerName, keyFilePath, token, opts, callback);
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **certIssuerName** | **String**| The name of the PKI certificate issuer | 
+ **keyFilePath** | **String**| The client public or private key file path (in case of a private key, it will be use to extract the public key) | 
+ **token** | **String**| Access token | 
+ **commonName** | **String**| The common name to be included in the PKI certificate | [optional] 
+ **altNames** | **String**| The Subject Alternative Names to be included in the PKI certificate (in a comma-delimited list) | [optional] 
+ **uriSans** | **String**| The URI Subject Alternative Names to be included in the PKI certificate (in a comma-delimited list) | [optional] 
+ **outfile** | **String**| Output file path with the certificate. If not provided, the file with the certificate will be created in the same location of the provided public key with the -cert extension | [optional] 
+
+### Return type
+
+[**ReplyObj**](ReplyObj.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+<a name="getRole"></a>
+# **getRole**
 > ReplyObj getRole(name, token)
 
 Get role details
@@ -1766,24 +1913,27 @@ Get role details
 Get role details Options:   name -    Role name   token -    Access token
 
 ### Example
-
 ```javascript
-import AkeylessVaultApi from 'akeyless_vault_api';
+var AkeylessVaultApi = require('akeyless_vault_api');
 
-let apiInstance = new AkeylessVaultApi.DefaultApi();
-let name = "name_example"; // String | Role name
-let token = "token_example"; // String | Access token
-apiInstance.getRole(name, token, (error, data, response) => {
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var name = "name_example"; // String | Role name
+
+var token = "token_example"; // String | Access token
+
+
+var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-});
+};
+apiInstance.getRole(name, token, callback);
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -1800,12 +1950,11 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
-
-## getRsaPublic
-
+<a name="getRsaPublic"></a>
+# **getRsaPublic**
 > ReplyObj getRsaPublic(name, token)
 
 Obtain the public key from a specific RSA private key
@@ -1813,24 +1962,27 @@ Obtain the public key from a specific RSA private key
 Obtain the public key from a specific RSA private key Options:   name -    Name of key to be created   token -    Access token
 
 ### Example
-
 ```javascript
-import AkeylessVaultApi from 'akeyless_vault_api';
+var AkeylessVaultApi = require('akeyless_vault_api');
 
-let apiInstance = new AkeylessVaultApi.DefaultApi();
-let name = "name_example"; // String | Name of key to be created
-let token = "token_example"; // String | Access token
-apiInstance.getRsaPublic(name, token, (error, data, response) => {
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var name = "name_example"; // String | Name of key to be created
+
+var token = "token_example"; // String | Access token
+
+
+var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-});
+};
+apiInstance.getRsaPublic(name, token, callback);
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -1847,12 +1999,11 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
-
-## getSecretValue
-
+<a name="getSecretValue"></a>
+# **getSecretValue**
 > ReplyObj getSecretValue(name, token)
 
 Get static secret value
@@ -1860,24 +2011,27 @@ Get static secret value
 Get static secret value Options:   name -    Secret name   token -    Access token
 
 ### Example
-
 ```javascript
-import AkeylessVaultApi from 'akeyless_vault_api';
+var AkeylessVaultApi = require('akeyless_vault_api');
 
-let apiInstance = new AkeylessVaultApi.DefaultApi();
-let name = "name_example"; // String | Secret name
-let token = "token_example"; // String | Access token
-apiInstance.getSecretValue(name, token, (error, data, response) => {
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var name = "name_example"; // String | Secret name
+
+var token = "token_example"; // String | Access token
+
+
+var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-});
+};
+apiInstance.getSecretValue(name, token, callback);
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -1894,12 +2048,11 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
-
-## getSshCertificate
-
+<a name="getSshCertificate"></a>
+# **getSshCertificate**
 > ReplyObj getSshCertificate(certUsername, certIssuerName, publicKeyFilePath, token, opts)
 
 Generates SSH certificate
@@ -1907,29 +2060,34 @@ Generates SSH certificate
 Generates SSH certificate Options:   cert-username -    The username to sign in the SSH certificate   cert-issuer-name -    The name of the SSH certificate issuer   public-key-file-path -    SSH public key   outfile -    Output file path with the certificate. If not provided, the file with the certificate will be created in the same location of the provided public key with the -cert extension   token -    Access token
 
 ### Example
-
 ```javascript
-import AkeylessVaultApi from 'akeyless_vault_api';
+var AkeylessVaultApi = require('akeyless_vault_api');
 
-let apiInstance = new AkeylessVaultApi.DefaultApi();
-let certUsername = "certUsername_example"; // String | The username to sign in the SSH certificate
-let certIssuerName = "certIssuerName_example"; // String | The name of the SSH certificate issuer
-let publicKeyFilePath = "publicKeyFilePath_example"; // String | SSH public key
-let token = "token_example"; // String | Access token
-let opts = {
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var certUsername = "certUsername_example"; // String | The username to sign in the SSH certificate
+
+var certIssuerName = "certIssuerName_example"; // String | The name of the SSH certificate issuer
+
+var publicKeyFilePath = "publicKeyFilePath_example"; // String | SSH public key
+
+var token = "token_example"; // String | Access token
+
+var opts = { 
   'outfile': "outfile_example" // String | Output file path with the certificate. If not provided, the file with the certificate will be created in the same location of the provided public key with the -cert extension
 };
-apiInstance.getSshCertificate(certUsername, certIssuerName, publicKeyFilePath, token, opts, (error, data, response) => {
+
+var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-});
+};
+apiInstance.getSshCertificate(certUsername, certIssuerName, publicKeyFilePath, token, opts, callback);
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -1949,12 +2107,11 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
-
-## help
-
+<a name="help"></a>
+# **help**
 > ReplyObj help()
 
 help text
@@ -1962,22 +2119,22 @@ help text
 help text
 
 ### Example
-
 ```javascript
-import AkeylessVaultApi from 'akeyless_vault_api';
+var AkeylessVaultApi = require('akeyless_vault_api');
 
-let apiInstance = new AkeylessVaultApi.DefaultApi();
-apiInstance.help((error, data, response) => {
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-});
+};
+apiInstance.help(callback);
 ```
 
 ### Parameters
-
 This endpoint does not need any parameter.
 
 ### Return type
@@ -1990,12 +2147,11 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
-
-## listAuthMethods
-
+<a name="listAuthMethods"></a>
+# **listAuthMethods**
 > ReplyObj listAuthMethods(token, opts)
 
 Returns a list of all the Auth Methods in the account
@@ -2003,26 +2159,28 @@ Returns a list of all the Auth Methods in the account
 Returns a list of all the Auth Methods in the account Options:   pagination-token -    Next page reference   token -    Access token
 
 ### Example
-
 ```javascript
-import AkeylessVaultApi from 'akeyless_vault_api';
+var AkeylessVaultApi = require('akeyless_vault_api');
 
-let apiInstance = new AkeylessVaultApi.DefaultApi();
-let token = "token_example"; // String | Access token
-let opts = {
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var token = "token_example"; // String | Access token
+
+var opts = { 
   'paginationToken': "paginationToken_example" // String | Next page reference
 };
-apiInstance.listAuthMethods(token, opts, (error, data, response) => {
+
+var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-});
+};
+apiInstance.listAuthMethods(token, opts, callback);
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -2039,12 +2197,11 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
-
-## listItems
-
+<a name="listItems"></a>
+# **listItems**
 > ReplyObj listItems(token, opts)
 
 Returns a list of all accessible items
@@ -2052,30 +2209,32 @@ Returns a list of all accessible items
 Returns a list of all accessible items Options:   type -    The item types list of the requested items. In case it is empty, all types of items will be returned. options- [key, static-secret, dynamic-secret]   ItemsTypes -    ItemsTypes   filter -    Filter by item name or part of it   path -    Path to folder   pagination-token -    Next page reference   token -    Access token
 
 ### Example
-
 ```javascript
-import AkeylessVaultApi from 'akeyless_vault_api';
+var AkeylessVaultApi = require('akeyless_vault_api');
 
-let apiInstance = new AkeylessVaultApi.DefaultApi();
-let token = "token_example"; // String | Access token
-let opts = {
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var token = "token_example"; // String | Access token
+
+var opts = { 
   'type': "type_example", // String | The item types list of the requested items. In case it is empty, all types of items will be returned. options- [key, static-secret, dynamic-secret]
   'itemsTypes': "itemsTypes_example", // String | ItemsTypes
   'filter': "filter_example", // String | Filter by item name or part of it
   'path': "path_example", // String | Path to folder
   'paginationToken': "paginationToken_example" // String | Next page reference
 };
-apiInstance.listItems(token, opts, (error, data, response) => {
+
+var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-});
+};
+apiInstance.listItems(token, opts, callback);
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -2096,12 +2255,11 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
-
-## listRoles
-
+<a name="listRoles"></a>
+# **listRoles**
 > ReplyObj listRoles(token, opts)
 
 Returns a list of all roles in the account
@@ -2109,26 +2267,28 @@ Returns a list of all roles in the account
 Returns a list of all roles in the account Options:   pagination-token -    Next page reference   token -    Access token
 
 ### Example
-
 ```javascript
-import AkeylessVaultApi from 'akeyless_vault_api';
+var AkeylessVaultApi = require('akeyless_vault_api');
 
-let apiInstance = new AkeylessVaultApi.DefaultApi();
-let token = "token_example"; // String | Access token
-let opts = {
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var token = "token_example"; // String | Access token
+
+var opts = { 
   'paginationToken': "paginationToken_example" // String | Next page reference
 };
-apiInstance.listRoles(token, opts, (error, data, response) => {
+
+var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-});
+};
+apiInstance.listRoles(token, opts, callback);
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -2145,12 +2305,11 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
-
-## setRoleRule
-
+<a name="setRoleRule"></a>
+# **setRoleRule**
 > ReplyObj setRoleRule(roleName, path, capability, token)
 
 Set a rule to a role
@@ -2158,26 +2317,31 @@ Set a rule to a role
 Set a rule to a role Options:   role-name -    The role name to be updated   path -    The path the rule refers to   capability -    List of the approved/denied capabilities in the path options- [read, create, update, delete, list, deny]   token -    Access token
 
 ### Example
-
 ```javascript
-import AkeylessVaultApi from 'akeyless_vault_api';
+var AkeylessVaultApi = require('akeyless_vault_api');
 
-let apiInstance = new AkeylessVaultApi.DefaultApi();
-let roleName = "roleName_example"; // String | The role name to be updated
-let path = "path_example"; // String | The path the rule refers to
-let capability = "capability_example"; // String | List of the approved/denied capabilities in the path options- [read, create, update, delete, list, deny]
-let token = "token_example"; // String | Access token
-apiInstance.setRoleRule(roleName, path, capability, token, (error, data, response) => {
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var roleName = "roleName_example"; // String | The role name to be updated
+
+var path = "path_example"; // String | The path the rule refers to
+
+var capability = "capability_example"; // String | List of the approved/denied capabilities in the path options- [read, create, update, delete, list, deny]
+
+var token = "token_example"; // String | Access token
+
+
+var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-});
+};
+apiInstance.setRoleRule(roleName, path, capability, token, callback);
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -2196,12 +2360,11 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
-
-## signPkcs1
-
+<a name="signPkcs1"></a>
+# **signPkcs1**
 > ReplyObj signPkcs1(keyName, message, token)
 
 Calculates the signature of hashed using RSASSA-PKCS1-V1_5-SIGN from RSA PKCS#1 v1.5
@@ -2209,25 +2372,29 @@ Calculates the signature of hashed using RSASSA-PKCS1-V1_5-SIGN from RSA PKCS#1 
 Calculates the signature of hashed using RSASSA-PKCS1-V1_5-SIGN from RSA PKCS#1 v1.5 Options:   key-name -    The name of the RSA key to use in the signing process   message -    The message to be signed   token -    Access token
 
 ### Example
-
 ```javascript
-import AkeylessVaultApi from 'akeyless_vault_api';
+var AkeylessVaultApi = require('akeyless_vault_api');
 
-let apiInstance = new AkeylessVaultApi.DefaultApi();
-let keyName = "keyName_example"; // String | The name of the RSA key to use in the signing process
-let message = "message_example"; // String | The message to be signed
-let token = "token_example"; // String | Access token
-apiInstance.signPkcs1(keyName, message, token, (error, data, response) => {
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var keyName = "keyName_example"; // String | The name of the RSA key to use in the signing process
+
+var message = "message_example"; // String | The message to be signed
+
+var token = "token_example"; // String | Access token
+
+
+var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-});
+};
+apiInstance.signPkcs1(keyName, message, token, callback);
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -2245,12 +2412,11 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
-
-## unconfigure
-
+<a name="unconfigure"></a>
+# **unconfigure**
 > ReplyObj unconfigure(token)
 
 Remove Configuration of client profile.
@@ -2258,23 +2424,25 @@ Remove Configuration of client profile.
 Remove Configuration of client profile. Options:   token -    Access token
 
 ### Example
-
 ```javascript
-import AkeylessVaultApi from 'akeyless_vault_api';
+var AkeylessVaultApi = require('akeyless_vault_api');
 
-let apiInstance = new AkeylessVaultApi.DefaultApi();
-let token = "token_example"; // String | Access token
-apiInstance.unconfigure(token, (error, data, response) => {
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var token = "token_example"; // String | Access token
+
+
+var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-});
+};
+apiInstance.unconfigure(token, callback);
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -2290,12 +2458,11 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
-
-## update
-
+<a name="update"></a>
+# **update**
 > ReplyObj update(token)
 
 Update a new AKEYLESS CLI version
@@ -2303,23 +2470,25 @@ Update a new AKEYLESS CLI version
 Update a new AKEYLESS CLI version Options:   token -    Access token
 
 ### Example
-
 ```javascript
-import AkeylessVaultApi from 'akeyless_vault_api';
+var AkeylessVaultApi = require('akeyless_vault_api');
 
-let apiInstance = new AkeylessVaultApi.DefaultApi();
-let token = "token_example"; // String | Access token
-apiInstance.update(token, (error, data, response) => {
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var token = "token_example"; // String | Access token
+
+
+var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-});
+};
+apiInstance.update(token, callback);
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -2335,12 +2504,11 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
-
-## updateItem
-
+<a name="updateItem"></a>
+# **updateItem**
 > ReplyObj updateItem(name, token, opts)
 
 Update item name and metadata
@@ -2348,28 +2516,31 @@ Update item name and metadata
 Update item name and metadata Options:   name -    Current item name   new-name -    New item name   new-metadata -    New item metadata   token -    Access token
 
 ### Example
-
 ```javascript
-import AkeylessVaultApi from 'akeyless_vault_api';
+var AkeylessVaultApi = require('akeyless_vault_api');
 
-let apiInstance = new AkeylessVaultApi.DefaultApi();
-let name = "name_example"; // String | Current item name
-let token = "token_example"; // String | Access token
-let opts = {
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var name = "name_example"; // String | Current item name
+
+var token = "token_example"; // String | Access token
+
+var opts = { 
   'newName': "newName_example", // String | New item name
   'newMetadata': "newMetadata_example" // String | New item metadata
 };
-apiInstance.updateItem(name, token, opts, (error, data, response) => {
+
+var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-});
+};
+apiInstance.updateItem(name, token, opts, callback);
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -2388,12 +2559,11 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
-
-## updateRole
-
+<a name="updateRole"></a>
+# **updateRole**
 > ReplyObj updateRole(name, token, opts)
 
 Update role details
@@ -2401,28 +2571,31 @@ Update role details
 Update role details Options:   name -    Role name   new-name -    New Role name   new-comment -    New comment about the role   token -    Access token
 
 ### Example
-
 ```javascript
-import AkeylessVaultApi from 'akeyless_vault_api';
+var AkeylessVaultApi = require('akeyless_vault_api');
 
-let apiInstance = new AkeylessVaultApi.DefaultApi();
-let name = "name_example"; // String | Role name
-let token = "token_example"; // String | Access token
-let opts = {
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var name = "name_example"; // String | Role name
+
+var token = "token_example"; // String | Access token
+
+var opts = { 
   'newName': "newName_example", // String | New Role name
   'newComment': "newComment_example" // String | New comment about the role
 };
-apiInstance.updateRole(name, token, opts, (error, data, response) => {
+
+var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-});
+};
+apiInstance.updateRole(name, token, opts, callback);
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -2441,42 +2614,45 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
-
-## updateSecretVal
-
+<a name="updateSecretVal"></a>
+# **updateSecretVal**
 > ReplyObj updateSecretVal(name, value, token, opts)
 
 Update static secret value
 
-Update static secret value Options:   name -    Secret name   value -    The new secret value   key -    The name of a key that used to encrypt the secret value (if empty, the account default protectionKey key will be used)   multiline -    The provided value is a multiline value (separated by &#39;\\n&#39;)   token -    Access token
+Update static secret value Options:   name -    Secret name   value -    The new secret value   key -    The name of a key that used to encrypt the secret value (if empty, the account default protectionKey key will be used)   multiline -    The provided value is a multiline value (separated by '\\n')   token -    Access token
 
 ### Example
-
 ```javascript
-import AkeylessVaultApi from 'akeyless_vault_api';
+var AkeylessVaultApi = require('akeyless_vault_api');
 
-let apiInstance = new AkeylessVaultApi.DefaultApi();
-let name = "name_example"; // String | Secret name
-let value = "value_example"; // String | The new secret value
-let token = "token_example"; // String | Access token
-let opts = {
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var name = "name_example"; // String | Secret name
+
+var value = "value_example"; // String | The new secret value
+
+var token = "token_example"; // String | Access token
+
+var opts = { 
   'key': "key_example", // String | The name of a key that used to encrypt the secret value (if empty, the account default protectionKey key will be used)
   'multiline': true // Boolean | The provided value is a multiline value (separated by '\\n')
 };
-apiInstance.updateSecretVal(name, value, token, opts, (error, data, response) => {
+
+var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-});
+};
+apiInstance.updateSecretVal(name, value, token, opts, callback);
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -2484,7 +2660,7 @@ Name | Type | Description  | Notes
  **value** | **String**| The new secret value | 
  **token** | **String**| Access token | 
  **key** | **String**| The name of a key that used to encrypt the secret value (if empty, the account default protectionKey key will be used) | [optional] 
- **multiline** | **Boolean**| The provided value is a multiline value (separated by &#39;\\n&#39;) | [optional] 
+ **multiline** | **Boolean**| The provided value is a multiline value (separated by '\\n') | [optional] 
 
 ### Return type
 
@@ -2496,12 +2672,11 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
-
-## uploadPkcs12
-
+<a name="uploadPkcs12"></a>
+# **uploadPkcs12**
 > ReplyObj uploadPkcs12(name, _in, passphrase, token, opts)
 
 Upload a PKCS#12 key and certificates
@@ -2509,32 +2684,37 @@ Upload a PKCS#12 key and certificates
 Upload a PKCS#12 key and certificates Options:   name -    Name of key to be created   in -    PKCS#12 input file (private key and certificate only)   passphrase -    Passphrase to unlock the pkcs#12 bundle   metadata -    A metadata about the key   split-level -    The number of fragments that the item will be split into   customer-frg-id -    The customer fragment ID that will be used to split the key (if empty, the key will be created independently of a customer fragment)   cert -    Path to a file that contain the certificate in a PEM format. If this parameter is not empty, the certificate will be taken from here and not from the PKCS#12 input file   token -    Access token
 
 ### Example
-
 ```javascript
-import AkeylessVaultApi from 'akeyless_vault_api';
+var AkeylessVaultApi = require('akeyless_vault_api');
 
-let apiInstance = new AkeylessVaultApi.DefaultApi();
-let name = "name_example"; // String | Name of key to be created
-let _in = "_in_example"; // String | PKCS#12 input file (private key and certificate only)
-let passphrase = "passphrase_example"; // String | Passphrase to unlock the pkcs#12 bundle
-let token = "token_example"; // String | Access token
-let opts = {
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var name = "name_example"; // String | Name of key to be created
+
+var _in = "_in_example"; // String | PKCS#12 input file (private key and certificate only)
+
+var passphrase = "passphrase_example"; // String | Passphrase to unlock the pkcs#12 bundle
+
+var token = "token_example"; // String | Access token
+
+var opts = { 
   'metadata': "metadata_example", // String | A metadata about the key
   'splitLevel': "splitLevel_example", // String | The number of fragments that the item will be split into
   'customerFrgId': "customerFrgId_example", // String | The customer fragment ID that will be used to split the key (if empty, the key will be created independently of a customer fragment)
   'cert': "cert_example" // String | Path to a file that contain the certificate in a PEM format. If this parameter is not empty, the certificate will be taken from here and not from the PKCS#12 input file
 };
-apiInstance.uploadPkcs12(name, _in, passphrase, token, opts, (error, data, response) => {
+
+var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-});
+};
+apiInstance.uploadPkcs12(name, _in, passphrase, token, opts, callback);
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -2557,12 +2737,11 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
-
-## uploadRsa
-
+<a name="uploadRsa"></a>
+# **uploadRsa**
 > ReplyObj uploadRsa(name, alg, rsaKeyFilePath, token, opts)
 
 Upload RSA key
@@ -2570,32 +2749,37 @@ Upload RSA key
 Upload RSA key Options:   name -    Name of key to be created   alg -    Key type. options- [RSA1024, RSA2048]   rsa-key-file-path -    RSA private key file path   cert -    Path to a file that contain the certificate in a PEM format.   metadata -    A metadata about the key   split-level -    The number of fragments that the item will be split into   customer-frg-id -    The customer fragment ID that will be used to split the key (if empty, the key will be created independently of a customer fragment)   token -    Access token
 
 ### Example
-
 ```javascript
-import AkeylessVaultApi from 'akeyless_vault_api';
+var AkeylessVaultApi = require('akeyless_vault_api');
 
-let apiInstance = new AkeylessVaultApi.DefaultApi();
-let name = "name_example"; // String | Name of key to be created
-let alg = "alg_example"; // String | Key type. options- [RSA1024, RSA2048]
-let rsaKeyFilePath = "rsaKeyFilePath_example"; // String | RSA private key file path
-let token = "token_example"; // String | Access token
-let opts = {
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var name = "name_example"; // String | Name of key to be created
+
+var alg = "alg_example"; // String | Key type. options- [RSA1024, RSA2048]
+
+var rsaKeyFilePath = "rsaKeyFilePath_example"; // String | RSA private key file path
+
+var token = "token_example"; // String | Access token
+
+var opts = { 
   'cert': "cert_example", // String | Path to a file that contain the certificate in a PEM format.
   'metadata': "metadata_example", // String | A metadata about the key
   'splitLevel': "splitLevel_example", // String | The number of fragments that the item will be split into
   'customerFrgId': "customerFrgId_example" // String | The customer fragment ID that will be used to split the key (if empty, the key will be created independently of a customer fragment)
 };
-apiInstance.uploadRsa(name, alg, rsaKeyFilePath, token, opts, (error, data, response) => {
+
+var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-});
+};
+apiInstance.uploadRsa(name, alg, rsaKeyFilePath, token, opts, callback);
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -2618,45 +2802,49 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
-
-## verifyPkcs1
-
+<a name="verifyPkcs1"></a>
+# **verifyPkcs1**
 > ReplyObj verifyPkcs1(keyName, message, signature, token)
 
 Verifies an RSA PKCS#1 v1.5 signature
 
-Verifies an RSA PKCS#1 v1.5 signature Options:   key-name -    The name of the RSA key to use in the verification process   message -    The message to be verified   signature -    The message&#39;s signature   token -    Access token
+Verifies an RSA PKCS#1 v1.5 signature Options:   key-name -    The name of the RSA key to use in the verification process   message -    The message to be verified   signature -    The message's signature   token -    Access token
 
 ### Example
-
 ```javascript
-import AkeylessVaultApi from 'akeyless_vault_api';
+var AkeylessVaultApi = require('akeyless_vault_api');
 
-let apiInstance = new AkeylessVaultApi.DefaultApi();
-let keyName = "keyName_example"; // String | The name of the RSA key to use in the verification process
-let message = "message_example"; // String | The message to be verified
-let signature = "signature_example"; // String | The message's signature
-let token = "token_example"; // String | Access token
-apiInstance.verifyPkcs1(keyName, message, signature, token, (error, data, response) => {
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var keyName = "keyName_example"; // String | The name of the RSA key to use in the verification process
+
+var message = "message_example"; // String | The message to be verified
+
+var signature = "signature_example"; // String | The message's signature
+
+var token = "token_example"; // String | Access token
+
+
+var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-});
+};
+apiInstance.verifyPkcs1(keyName, message, signature, token, callback);
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **keyName** | **String**| The name of the RSA key to use in the verification process | 
  **message** | **String**| The message to be verified | 
- **signature** | **String**| The message&#39;s signature | 
+ **signature** | **String**| The message's signature | 
  **token** | **String**| Access token | 
 
 ### Return type
@@ -2669,6 +2857,6 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
