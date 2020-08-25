@@ -152,7 +152,7 @@ Class | Method | HTTP request | Description
 *AkeylessVaultApi.DefaultApi* | [**decryptPkcs1**](docs/DefaultApi.md#decryptPkcs1) | **POST** /decrypt-pkcs1 | Decrypts a plaintext using RSA and the padding scheme from PKCS#1 v1.5
 *AkeylessVaultApi.DefaultApi* | [**deleteAssoc**](docs/DefaultApi.md#deleteAssoc) | **POST** /delete-assoc | Delete an association between role and auth method
 *AkeylessVaultApi.DefaultApi* | [**deleteAuthMethod**](docs/DefaultApi.md#deleteAuthMethod) | **POST** /delete-auth-method | Delete the Auth Method
-*AkeylessVaultApi.DefaultApi* | [**deleteItem**](docs/DefaultApi.md#deleteItem) | **POST** /delete-item | Delete an item
+*AkeylessVaultApi.DefaultApi* | [**deleteItem**](docs/DefaultApi.md#deleteItem) | **POST** /delete-item | Delete an item or an item version
 *AkeylessVaultApi.DefaultApi* | [**deleteRole**](docs/DefaultApi.md#deleteRole) | **POST** /delete-role | Delete a role
 *AkeylessVaultApi.DefaultApi* | [**deleteRoleRule**](docs/DefaultApi.md#deleteRoleRule) | **POST** /delete-role-rule | Delete a rule from a role
 *AkeylessVaultApi.DefaultApi* | [**describeItem**](docs/DefaultApi.md#describeItem) | **POST** /describe-item | Returns the item details

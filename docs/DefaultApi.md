@@ -24,7 +24,7 @@ Method | HTTP request | Description
 [**decryptPkcs1**](DefaultApi.md#decryptPkcs1) | **POST** /decrypt-pkcs1 | Decrypts a plaintext using RSA and the padding scheme from PKCS#1 v1.5
 [**deleteAssoc**](DefaultApi.md#deleteAssoc) | **POST** /delete-assoc | Delete an association between role and auth method
 [**deleteAuthMethod**](DefaultApi.md#deleteAuthMethod) | **POST** /delete-auth-method | Delete the Auth Method
-[**deleteItem**](DefaultApi.md#deleteItem) | **POST** /delete-item | Delete an item
+[**deleteItem**](DefaultApi.md#deleteItem) | **POST** /delete-item | Delete an item or an item version
 [**deleteRole**](DefaultApi.md#deleteRole) | **POST** /delete-role | Delete a role
 [**deleteRoleRule**](DefaultApi.md#deleteRoleRule) | **POST** /delete-role-rule | Delete a rule from a role
 [**describeItem**](DefaultApi.md#describeItem) | **POST** /describe-item | Returns the item details
@@ -114,11 +114,11 @@ No authorization required
 
 <a name="auth"></a>
 # **auth**
-> ReplyObj auth(accessId, opts)
+> ReplyObj auth(opts)
 
 Authenticate to the service and returns a token to be used as a profile to execute the CLI without the need for re-authentication
 
-Authenticate to the service and returns a token to be used as a profile to execute the CLI without the need for re-authentication Options:   access-id -    Access ID   access-type -    Access Type (access_key/saml/ldap/azure_ad/aws_iam)   access-key -    Access key (relevant only for access-type=access_key)   cloud-id -    The cloued identity (relevant only for access-type=azure_ad,awd_im,auid)   ldap_proxy_url -    Address URL for LDAP proxy (relevant only for access-type=ldap)
+Authenticate to the service and returns a token to be used as a profile to execute the CLI without the need for re-authentication Options:   access-id -    Access ID   access-type -    Access Type (access_key/password/saml/ldap/azure_ad/aws_iam)   access-key -    Access key (relevant only for access-type=access_key)   admin-password -    Password (relevant only for access-type=password)   admin-email -    Email (relevant only for access-type=password)   cloud-id -    The cloued identity (relevant only for access-type=azure_ad,awd_im,auid)   ldap_proxy_url -    Address URL for LDAP proxy (relevant only for access-type=ldap)
 
 ### Example
 ```javascript
@@ -126,11 +126,12 @@ var AkeylessVaultApi = require('akeyless_vault_api');
 
 var apiInstance = new AkeylessVaultApi.DefaultApi();
 
-var accessId = "accessId_example"; // String | Access ID
-
 var opts = { 
-  'accessType': "accessType_example", // String | Access Type (access_key/saml/ldap/azure_ad/aws_iam)
+  'accessId': "accessId_example", // String | Access ID
+  'accessType': "accessType_example", // String | Access Type (access_key/password/saml/ldap/azure_ad/aws_iam)
   'accessKey': "accessKey_example", // String | Access key (relevant only for access-type=access_key)
+  'adminPassword': "adminPassword_example", // String | Password (relevant only for access-type=password)
+  'adminEmail': "adminEmail_example", // String | Email (relevant only for access-type=password)
   'cloudId': "cloudId_example", // String | The cloued identity (relevant only for access-type=azure_ad,awd_im,auid)
   'ldapProxyUrl': "ldapProxyUrl_example" // String | Address URL for LDAP proxy (relevant only for access-type=ldap)
 };
@@ -142,16 +143,18 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-apiInstance.auth(accessId, opts, callback);
+apiInstance.auth(opts, callback);
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **accessId** | **String**| Access ID | 
- **accessType** | **String**| Access Type (access_key/saml/ldap/azure_ad/aws_iam) | [optional] 
+ **accessId** | **String**| Access ID | [optional] 
+ **accessType** | **String**| Access Type (access_key/password/saml/ldap/azure_ad/aws_iam) | [optional] 
  **accessKey** | **String**| Access key (relevant only for access-type=access_key) | [optional] 
+ **adminPassword** | **String**| Password (relevant only for access-type=password) | [optional] 
+ **adminEmail** | **String**| Email (relevant only for access-type=password) | [optional] 
  **cloudId** | **String**| The cloued identity (relevant only for access-type=azure_ad,awd_im,auid) | [optional] 
  **ldapProxyUrl** | **String**| Address URL for LDAP proxy (relevant only for access-type=ldap) | [optional] 
 
@@ -170,11 +173,11 @@ No authorization required
 
 <a name="configure"></a>
 # **configure**
-> ReplyObj configure(accessId, opts)
+> ReplyObj configure(opts)
 
 Configure client profile.
 
-Configure client profile. Options:   access-id -    Access ID   access-key -    Access Key   access-type -    Access Type (access_key/azure_ad/saml/ldap/aws_iam)   ldap_proxy_url -    Address URL for ldap proxy (relevant only for access-type=ldap)   azure_ad_object_id -    Azure Active Directory ObjectId (relevant only for access-type=azure_ad)
+Configure client profile. Options:   access-id -    Access ID   access-key -    Access Key   admin-password -    Password (relevant only for access-type=password)   admin-email -    Email (relevant only for access-type=password)   access-type -    Access Type (access_key/password/azure_ad/saml/ldap/aws_iam)   ldap_proxy_url -    Address URL for ldap proxy (relevant only for access-type=ldap)   azure_ad_object_id -    Azure Active Directory ObjectId (relevant only for access-type=azure_ad)
 
 ### Example
 ```javascript
@@ -182,11 +185,12 @@ var AkeylessVaultApi = require('akeyless_vault_api');
 
 var apiInstance = new AkeylessVaultApi.DefaultApi();
 
-var accessId = "accessId_example"; // String | Access ID
-
 var opts = { 
+  'accessId': "accessId_example", // String | Access ID
   'accessKey': "accessKey_example", // String | Access Key
-  'accessType': "accessType_example", // String | Access Type (access_key/azure_ad/saml/ldap/aws_iam)
+  'adminPassword': "adminPassword_example", // String | Password (relevant only for access-type=password)
+  'adminEmail': "adminEmail_example", // String | Email (relevant only for access-type=password)
+  'accessType': "accessType_example", // String | Access Type (access_key/password/azure_ad/saml/ldap/aws_iam)
   'ldapProxyUrl': "ldapProxyUrl_example", // String | Address URL for ldap proxy (relevant only for access-type=ldap)
   'azureAdObjectId': "azureAdObjectId_example" // String | Azure Active Directory ObjectId (relevant only for access-type=azure_ad)
 };
@@ -198,16 +202,18 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-apiInstance.configure(accessId, opts, callback);
+apiInstance.configure(opts, callback);
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **accessId** | **String**| Access ID | 
+ **accessId** | **String**| Access ID | [optional] 
  **accessKey** | **String**| Access Key | [optional] 
- **accessType** | **String**| Access Type (access_key/azure_ad/saml/ldap/aws_iam) | [optional] 
+ **adminPassword** | **String**| Password (relevant only for access-type=password) | [optional] 
+ **adminEmail** | **String**| Email (relevant only for access-type=password) | [optional] 
+ **accessType** | **String**| Access Type (access_key/password/azure_ad/saml/ldap/aws_iam) | [optional] 
  **ldapProxyUrl** | **String**| Address URL for ldap proxy (relevant only for access-type=ldap) | [optional] 
  **azureAdObjectId** | **String**| Azure Active Directory ObjectId (relevant only for access-type=azure_ad) | [optional] 
 
@@ -1269,9 +1275,9 @@ No authorization required
 # **deleteItem**
 > ReplyObj deleteItem(name, token)
 
-Delete an item
+Delete an item or an item version
 
-Delete an item Options:   name -    Item name   token -    Access token
+Delete an item or an item version Options:   name -    Item name   token -    Access token
 
 ### Example
 ```javascript
