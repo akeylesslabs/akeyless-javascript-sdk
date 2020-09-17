@@ -44,6 +44,7 @@ Method | HTTP request | Description
 [**listAuthMethods**](DefaultApi.md#listAuthMethods) | **POST** /list-auth-methods | Returns a list of all the Auth Methods in the account
 [**listItems**](DefaultApi.md#listItems) | **POST** /list-items | Returns a list of all accessible items
 [**listRoles**](DefaultApi.md#listRoles) | **POST** /list-roles | Returns a list of all roles in the account
+[**reverseRbac**](DefaultApi.md#reverseRbac) | **POST** /reverse-rbac | See which authentication methods have access to a particular object
 [**setRoleRule**](DefaultApi.md#setRoleRule) | **POST** /set-role-rule | Set a rule to a role
 [**signPkcs1**](DefaultApi.md#signPkcs1) | **POST** /sign-pkcs1 | Calculates the signature of hashed using RSASSA-PKCS1-V1_5-SIGN from RSA PKCS#1 v1.5
 [**unconfigure**](DefaultApi.md#unconfigure) | **POST** /unconfigure | Remove Configuration of client profile.
@@ -118,7 +119,7 @@ No authorization required
 
 Authenticate to the service and returns a token to be used as a profile to execute the CLI without the need for re-authentication
 
-Authenticate to the service and returns a token to be used as a profile to execute the CLI without the need for re-authentication Options:   access-id -    Access ID   access-type -    Access Type (access_key/password/saml/ldap/azure_ad/aws_iam)   access-key -    Access key (relevant only for access-type=access_key)   admin-password -    Password (relevant only for access-type=password)   admin-email -    Email (relevant only for access-type=password)   cloud-id -    The cloued identity (relevant only for access-type=azure_ad,awd_im,auid)   ldap_proxy_url -    Address URL for LDAP proxy (relevant only for access-type=ldap)
+Authenticate to the service and returns a token to be used as a profile to execute the CLI without the need for re-authentication Options:   access-id -    Access ID   access-type -    Access Type (access_key/password/saml/ldap/azure_ad/aws_iam/universal_identity)   access-key -    Access key (relevant only for access-type=access_key)   cloud-id -    The cloued identity (relevant only for access-type=azure_ad,awd_im)   uid_token -    The universal_identity token (relevant only for access-type=universal_identity)   admin-password -    Password (relevant only for access-type=password)   admin-email -    Email (relevant only for access-type=password)   ldap_proxy_url -    Address URL for LDAP proxy (relevant only for access-type=ldap)
 
 ### Example
 ```javascript
@@ -128,11 +129,12 @@ var apiInstance = new AkeylessVaultApi.DefaultApi();
 
 var opts = { 
   'accessId': "accessId_example", // String | Access ID
-  'accessType': "accessType_example", // String | Access Type (access_key/password/saml/ldap/azure_ad/aws_iam)
+  'accessType': "accessType_example", // String | Access Type (access_key/password/saml/ldap/azure_ad/aws_iam/universal_identity)
   'accessKey': "accessKey_example", // String | Access key (relevant only for access-type=access_key)
+  'cloudId': "cloudId_example", // String | The cloued identity (relevant only for access-type=azure_ad,awd_im)
+  'uidToken': "uidToken_example", // String | The universal_identity token (relevant only for access-type=universal_identity)
   'adminPassword': "adminPassword_example", // String | Password (relevant only for access-type=password)
   'adminEmail': "adminEmail_example", // String | Email (relevant only for access-type=password)
-  'cloudId': "cloudId_example", // String | The cloued identity (relevant only for access-type=azure_ad,awd_im,auid)
   'ldapProxyUrl': "ldapProxyUrl_example" // String | Address URL for LDAP proxy (relevant only for access-type=ldap)
 };
 
@@ -151,11 +153,12 @@ apiInstance.auth(opts, callback);
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **accessId** | **String**| Access ID | [optional] 
- **accessType** | **String**| Access Type (access_key/password/saml/ldap/azure_ad/aws_iam) | [optional] 
+ **accessType** | **String**| Access Type (access_key/password/saml/ldap/azure_ad/aws_iam/universal_identity) | [optional] 
  **accessKey** | **String**| Access key (relevant only for access-type=access_key) | [optional] 
+ **cloudId** | **String**| The cloued identity (relevant only for access-type=azure_ad,awd_im) | [optional] 
+ **uidToken** | **String**| The universal_identity token (relevant only for access-type=universal_identity) | [optional] 
  **adminPassword** | **String**| Password (relevant only for access-type=password) | [optional] 
  **adminEmail** | **String**| Email (relevant only for access-type=password) | [optional] 
- **cloudId** | **String**| The cloued identity (relevant only for access-type=azure_ad,awd_im,auid) | [optional] 
  **ldapProxyUrl** | **String**| Address URL for LDAP proxy (relevant only for access-type=ldap) | [optional] 
 
 ### Return type
@@ -177,7 +180,7 @@ No authorization required
 
 Configure client profile.
 
-Configure client profile. Options:   access-id -    Access ID   access-key -    Access Key   admin-password -    Password (relevant only for access-type=password)   admin-email -    Email (relevant only for access-type=password)   access-type -    Access Type (access_key/password/azure_ad/saml/ldap/aws_iam)   ldap_proxy_url -    Address URL for ldap proxy (relevant only for access-type=ldap)   azure_ad_object_id -    Azure Active Directory ObjectId (relevant only for access-type=azure_ad)
+Configure client profile. Options:   access-id -    Access ID   access-key -    Access Key   access-type -    Access Type (access_key/password/azure_ad/saml/ldap/aws_iam/universal_identity)   admin-password -    Password (relevant only for access-type=password)   admin-email -    Email (relevant only for access-type=password)   uid_token -    The universal_identity token (relevant only for access-type=universal_identity)   ldap_proxy_url -    Address URL for ldap proxy (relevant only for access-type=ldap)   azure_ad_object_id -    Azure Active Directory ObjectId (relevant only for access-type=azure_ad)
 
 ### Example
 ```javascript
@@ -188,9 +191,10 @@ var apiInstance = new AkeylessVaultApi.DefaultApi();
 var opts = { 
   'accessId': "accessId_example", // String | Access ID
   'accessKey': "accessKey_example", // String | Access Key
+  'accessType': "accessType_example", // String | Access Type (access_key/password/azure_ad/saml/ldap/aws_iam/universal_identity)
   'adminPassword': "adminPassword_example", // String | Password (relevant only for access-type=password)
   'adminEmail': "adminEmail_example", // String | Email (relevant only for access-type=password)
-  'accessType': "accessType_example", // String | Access Type (access_key/password/azure_ad/saml/ldap/aws_iam)
+  'uidToken': "uidToken_example", // String | The universal_identity token (relevant only for access-type=universal_identity)
   'ldapProxyUrl': "ldapProxyUrl_example", // String | Address URL for ldap proxy (relevant only for access-type=ldap)
   'azureAdObjectId': "azureAdObjectId_example" // String | Azure Active Directory ObjectId (relevant only for access-type=azure_ad)
 };
@@ -211,9 +215,10 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **accessId** | **String**| Access ID | [optional] 
  **accessKey** | **String**| Access Key | [optional] 
+ **accessType** | **String**| Access Type (access_key/password/azure_ad/saml/ldap/aws_iam/universal_identity) | [optional] 
  **adminPassword** | **String**| Password (relevant only for access-type=password) | [optional] 
  **adminEmail** | **String**| Email (relevant only for access-type=password) | [optional] 
- **accessType** | **String**| Access Type (access_key/password/azure_ad/saml/ldap/aws_iam) | [optional] 
+ **uidToken** | **String**| The universal_identity token (relevant only for access-type=universal_identity) | [optional] 
  **ldapProxyUrl** | **String**| Address URL for ldap proxy (relevant only for access-type=ldap) | [optional] 
  **azureAdObjectId** | **String**| Azure Active Directory ObjectId (relevant only for access-type=azure_ad) | [optional] 
 
@@ -564,11 +569,11 @@ No authorization required
 
 <a name="createAuthMethodSaml"></a>
 # **createAuthMethodSaml**
-> ReplyObj createAuthMethodSaml(name, idpMetadataUrl, token, opts)
+> ReplyObj createAuthMethodSaml(name, idpMetadataUrl, idpMetadataXml, token, opts)
 
 Create a new Auth Method that will be able to authenticate using SAML
 
-Create a new Auth Method that will be able to authenticate using SAML Options:   name -    Auth Method name   access-expires -    Access expiration date in Unix timestamp (select 0 for access without expiry date)   bound-ips -    A CIDR whitelist of the IPs that the access is restricted to   idp-metadata-url -    IDP metadata url   token -    Access token
+Create a new Auth Method that will be able to authenticate using SAML Options:   name -    Auth Method name   access-expires -    Access expiration date in Unix timestamp (select 0 for access without expiry date)   bound-ips -    A CIDR whitelist of the IPs that the access is restricted to   idp-metadata-url -    IDP metadata url   idp-metadata-xml -    IDP metadata xml   token -    Access token
 
 ### Example
 ```javascript
@@ -579,6 +584,8 @@ var apiInstance = new AkeylessVaultApi.DefaultApi();
 var name = "name_example"; // String | Auth Method name
 
 var idpMetadataUrl = "idpMetadataUrl_example"; // String | IDP metadata url
+
+var idpMetadataXml = "idpMetadataXml_example"; // String | IDP metadata xml
 
 var token = "token_example"; // String | Access token
 
@@ -594,7 +601,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-apiInstance.createAuthMethodSaml(name, idpMetadataUrl, token, opts, callback);
+apiInstance.createAuthMethodSaml(name, idpMetadataUrl, idpMetadataXml, token, opts, callback);
 ```
 
 ### Parameters
@@ -603,6 +610,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **name** | **String**| Auth Method name | 
  **idpMetadataUrl** | **String**| IDP metadata url | 
+ **idpMetadataXml** | **String**| IDP metadata xml | 
  **token** | **String**| Access token | 
  **accessExpires** | **String**| Access expiration date in Unix timestamp (select 0 for access without expiry date) | [optional] 
  **boundIps** | **String**| A CIDR whitelist of the IPs that the access is restricted to | [optional] 
@@ -626,7 +634,7 @@ No authorization required
 
 Creates a new dynamic secret item
 
-Creates a new dynamic secret item Options:   name -    Dynamic secret name   metadata -    Metadata about the dynamic secret   key -    The name of a key that used to encrypt the dynamic secret values (if empty, the account default protectionKey key will be used)   token -    Access token
+Creates a new dynamic secret item Options:   name -    Dynamic secret name   metadata -    Metadata about the dynamic secret   tag -    List of the tags attached to this secret. To specify multiple tags use argument multiple times- -t Tag1 -t Tag2   key -    The name of a key that used to encrypt the dynamic secret values (if empty, the account default protectionKey key will be used)   token -    Access token
 
 ### Example
 ```javascript
@@ -640,6 +648,7 @@ var token = "token_example"; // String | Access token
 
 var opts = { 
   'metadata': "metadata_example", // String | Metadata about the dynamic secret
+  'tag': "tag_example", // String | List of the tags attached to this secret. To specify multiple tags use argument multiple times- -t Tag1 -t Tag2
   'key': "key_example" // String | The name of a key that used to encrypt the dynamic secret values (if empty, the account default protectionKey key will be used)
 };
 
@@ -660,6 +669,7 @@ Name | Type | Description  | Notes
  **name** | **String**| Dynamic secret name | 
  **token** | **String**| Access token | 
  **metadata** | **String**| Metadata about the dynamic secret | [optional] 
+ **tag** | **String**| List of the tags attached to this secret. To specify multiple tags use argument multiple times- -t Tag1 -t Tag2 | [optional] 
  **key** | **String**| The name of a key that used to encrypt the dynamic secret values (if empty, the account default protectionKey key will be used) | [optional] 
 
 ### Return type
@@ -681,7 +691,7 @@ No authorization required
 
 Creates a new key
 
-Creates a new key Options:   name -    Key name   alg -    Key type. options- [AES128GCM, AES256GCM, AES128SIV, AES256SIV, RSA1024, RSA2048]   metadata -    Metadata about the key   split-level -    The number of fragments that the item will be split into (not includes customer fragment)   customer-frg-id -    The customer fragment ID that will be used to create the key (if empty, the key will be created independently of a customer fragment)   token -    Access token
+Creates a new key Options:   name -    Key name   alg -    Key type. options- [AES128GCM, AES256GCM, AES128SIV, AES256SIV, RSA1024, RSA2048]   metadata -    Metadata about the key   tag -    List of the tags attached to this key. To specify multiple tags use argument multiple times- -t Tag1 -t Tag2   split-level -    The number of fragments that the item will be split into (not includes customer fragment)   customer-frg-id -    The customer fragment ID that will be used to create the key (if empty, the key will be created independently of a customer fragment)   token -    Access token
 
 ### Example
 ```javascript
@@ -697,6 +707,7 @@ var token = "token_example"; // String | Access token
 
 var opts = { 
   'metadata': "metadata_example", // String | Metadata about the key
+  'tag': "tag_example", // String | List of the tags attached to this key. To specify multiple tags use argument multiple times- -t Tag1 -t Tag2
   'splitLevel': "splitLevel_example", // String | The number of fragments that the item will be split into (not includes customer fragment)
   'customerFrgId': "customerFrgId_example" // String | The customer fragment ID that will be used to create the key (if empty, the key will be created independently of a customer fragment)
 };
@@ -719,6 +730,7 @@ Name | Type | Description  | Notes
  **alg** | **String**| Key type. options- [AES128GCM, AES256GCM, AES128SIV, AES256SIV, RSA1024, RSA2048] | 
  **token** | **String**| Access token | 
  **metadata** | **String**| Metadata about the key | [optional] 
+ **tag** | **String**| List of the tags attached to this key. To specify multiple tags use argument multiple times- -t Tag1 -t Tag2 | [optional] 
  **splitLevel** | **String**| The number of fragments that the item will be split into (not includes customer fragment) | [optional] 
  **customerFrgId** | **String**| The customer fragment ID that will be used to create the key (if empty, the key will be created independently of a customer fragment) | [optional] 
 
@@ -887,7 +899,7 @@ No authorization required
 
 Creates a new secret item
 
-Creates a new secret item Options:   name -    Secret name   value -    The secret value   metadata -    Metadata about the secret   key -    The name of a key that used to encrypt the secret value (if empty, the account default protectionKey key will be used)   multiline -    The provided value is a multiline value (separated by '\\n')   token -    Access token
+Creates a new secret item Options:   name -    Secret name   value -    The secret value   metadata -    Metadata about the secret   tag -    List of the tags attached to this secret. To specify multiple tags use argument multiple times- -t Tag1 -t Tag2   key -    The name of a key that used to encrypt the secret value (if empty, the account default protectionKey key will be used)   multiline -    The provided value is a multiline value (separated by '\\n')   token -    Access token
 
 ### Example
 ```javascript
@@ -903,6 +915,7 @@ var token = "token_example"; // String | Access token
 
 var opts = { 
   'metadata': "metadata_example", // String | Metadata about the secret
+  'tag': "tag_example", // String | List of the tags attached to this secret. To specify multiple tags use argument multiple times- -t Tag1 -t Tag2
   'key': "key_example", // String | The name of a key that used to encrypt the secret value (if empty, the account default protectionKey key will be used)
   'multiline': true // Boolean | The provided value is a multiline value (separated by '\\n')
 };
@@ -925,6 +938,7 @@ Name | Type | Description  | Notes
  **value** | **String**| The secret value | 
  **token** | **String**| Access token | 
  **metadata** | **String**| Metadata about the secret | [optional] 
+ **tag** | **String**| List of the tags attached to this secret. To specify multiple tags use argument multiple times- -t Tag1 -t Tag2 | [optional] 
  **key** | **String**| The name of a key that used to encrypt the secret value (if empty, the account default protectionKey key will be used) | [optional] 
  **multiline** | **Boolean**| The provided value is a multiline value (separated by '\\n') | [optional] 
 
@@ -2212,7 +2226,7 @@ No authorization required
 
 Returns a list of all accessible items
 
-Returns a list of all accessible items Options:   type -    The item types list of the requested items. In case it is empty, all types of items will be returned. options- [key, static-secret, dynamic-secret]   ItemsTypes -    ItemsTypes   filter -    Filter by item name or part of it   path -    Path to folder   pagination-token -    Next page reference   token -    Access token
+Returns a list of all accessible items Options:   type -    The item types list of the requested items. In case it is empty, all types of items will be returned. options- [key, static-secret, dynamic-secret]   ItemsTypes -    ItemsTypes   filter -    Filter by item name or part of it   tag -    Filter by item tag   path -    Path to folder   pagination-token -    Next page reference   token -    Access token
 
 ### Example
 ```javascript
@@ -2226,6 +2240,7 @@ var opts = {
   'type': "type_example", // String | The item types list of the requested items. In case it is empty, all types of items will be returned. options- [key, static-secret, dynamic-secret]
   'itemsTypes': "itemsTypes_example", // String | ItemsTypes
   'filter': "filter_example", // String | Filter by item name or part of it
+  'tag': "tag_example", // String | Filter by item tag
   'path': "path_example", // String | Path to folder
   'paginationToken': "paginationToken_example" // String | Next page reference
 };
@@ -2248,6 +2263,7 @@ Name | Type | Description  | Notes
  **type** | **String**| The item types list of the requested items. In case it is empty, all types of items will be returned. options- [key, static-secret, dynamic-secret] | [optional] 
  **itemsTypes** | **String**| ItemsTypes | [optional] 
  **filter** | **String**| Filter by item name or part of it | [optional] 
+ **tag** | **String**| Filter by item tag | [optional] 
  **path** | **String**| Path to folder | [optional] 
  **paginationToken** | **String**| Next page reference | [optional] 
 
@@ -2300,6 +2316,58 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **token** | **String**| Access token | 
  **paginationToken** | **String**| Next page reference | [optional] 
+
+### Return type
+
+[**ReplyObj**](ReplyObj.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+<a name="reverseRbac"></a>
+# **reverseRbac**
+> ReplyObj reverseRbac(path, type, token)
+
+See which authentication methods have access to a particular object
+
+See which authentication methods have access to a particular object Options:   path -    Path to an object   type -    Type of object (item, am, role)   token -    Access token
+
+### Example
+```javascript
+var AkeylessVaultApi = require('akeyless_vault_api');
+
+var apiInstance = new AkeylessVaultApi.DefaultApi();
+
+var path = "path_example"; // String | Path to an object
+
+var type = "type_example"; // String | Type of object (item, am, role)
+
+var token = "token_example"; // String | Access token
+
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+apiInstance.reverseRbac(path, type, token, callback);
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **path** | **String**| Path to an object | 
+ **type** | **String**| Type of object (item, am, role) | 
+ **token** | **String**| Access token | 
 
 ### Return type
 
@@ -2519,7 +2587,7 @@ No authorization required
 
 Update item name and metadata
 
-Update item name and metadata Options:   name -    Current item name   new-name -    New item name   new-metadata -    New item metadata   token -    Access token
+Update item name and metadata Options:   name -    Current item name   new-name -    New item name   new-metadata -    New item metadata   add-tag -    List of the new tags that will be attached to this item. To specify multiple tags use argument multiple times- --add-tag Tag1 --add-tag Tag2   rm-tag -    List of the existent tags that will be removed from this item. To specify multiple tags use argument multiple times- --rm-tag Tag1 --rm-tag Tag2   token -    Access token
 
 ### Example
 ```javascript
@@ -2533,7 +2601,9 @@ var token = "token_example"; // String | Access token
 
 var opts = { 
   'newName': "newName_example", // String | New item name
-  'newMetadata': "newMetadata_example" // String | New item metadata
+  'newMetadata': "newMetadata_example", // String | New item metadata
+  'addTag': "addTag_example", // String | List of the new tags that will be attached to this item. To specify multiple tags use argument multiple times- --add-tag Tag1 --add-tag Tag2
+  'rmTag': "rmTag_example" // String | List of the existent tags that will be removed from this item. To specify multiple tags use argument multiple times- --rm-tag Tag1 --rm-tag Tag2
 };
 
 var callback = function(error, data, response) {
@@ -2554,6 +2624,8 @@ Name | Type | Description  | Notes
  **token** | **String**| Access token | 
  **newName** | **String**| New item name | [optional] 
  **newMetadata** | **String**| New item metadata | [optional] 
+ **addTag** | **String**| List of the new tags that will be attached to this item. To specify multiple tags use argument multiple times- --add-tag Tag1 --add-tag Tag2 | [optional] 
+ **rmTag** | **String**| List of the existent tags that will be removed from this item. To specify multiple tags use argument multiple times- --rm-tag Tag1 --rm-tag Tag2 | [optional] 
 
 ### Return type
 
@@ -2687,7 +2759,7 @@ No authorization required
 
 Upload a PKCS#12 key and certificates
 
-Upload a PKCS#12 key and certificates Options:   name -    Name of key to be created   in -    PKCS#12 input file (private key and certificate only)   passphrase -    Passphrase to unlock the pkcs#12 bundle   metadata -    A metadata about the key   split-level -    The number of fragments that the item will be split into   customer-frg-id -    The customer fragment ID that will be used to split the key (if empty, the key will be created independently of a customer fragment)   cert -    Path to a file that contain the certificate in a PEM format. If this parameter is not empty, the certificate will be taken from here and not from the PKCS#12 input file   token -    Access token
+Upload a PKCS#12 key and certificates Options:   name -    Name of key to be created   in -    PKCS#12 input file (private key and certificate only)   passphrase -    Passphrase to unlock the pkcs#12 bundle   metadata -    A metadata about the key   tag -    List of the tags attached to this key. To specify multiple tags use argument multiple times- -t Tag1 -t Tag2   split-level -    The number of fragments that the item will be split into   customer-frg-id -    The customer fragment ID that will be used to split the key (if empty, the key will be created independently of a customer fragment)   cert -    Path to a file that contain the certificate in a PEM format. If this parameter is not empty, the certificate will be taken from here and not from the PKCS#12 input file   token -    Access token
 
 ### Example
 ```javascript
@@ -2705,6 +2777,7 @@ var token = "token_example"; // String | Access token
 
 var opts = { 
   'metadata': "metadata_example", // String | A metadata about the key
+  'tag': "tag_example", // String | List of the tags attached to this key. To specify multiple tags use argument multiple times- -t Tag1 -t Tag2
   'splitLevel': "splitLevel_example", // String | The number of fragments that the item will be split into
   'customerFrgId': "customerFrgId_example", // String | The customer fragment ID that will be used to split the key (if empty, the key will be created independently of a customer fragment)
   'cert': "cert_example" // String | Path to a file that contain the certificate in a PEM format. If this parameter is not empty, the certificate will be taken from here and not from the PKCS#12 input file
@@ -2729,6 +2802,7 @@ Name | Type | Description  | Notes
  **passphrase** | **String**| Passphrase to unlock the pkcs#12 bundle | 
  **token** | **String**| Access token | 
  **metadata** | **String**| A metadata about the key | [optional] 
+ **tag** | **String**| List of the tags attached to this key. To specify multiple tags use argument multiple times- -t Tag1 -t Tag2 | [optional] 
  **splitLevel** | **String**| The number of fragments that the item will be split into | [optional] 
  **customerFrgId** | **String**| The customer fragment ID that will be used to split the key (if empty, the key will be created independently of a customer fragment) | [optional] 
  **cert** | **String**| Path to a file that contain the certificate in a PEM format. If this parameter is not empty, the certificate will be taken from here and not from the PKCS#12 input file | [optional] 
@@ -2752,7 +2826,7 @@ No authorization required
 
 Upload RSA key
 
-Upload RSA key Options:   name -    Name of key to be created   alg -    Key type. options- [RSA1024, RSA2048]   rsa-key-file-path -    RSA private key file path   cert -    Path to a file that contain the certificate in a PEM format.   metadata -    A metadata about the key   split-level -    The number of fragments that the item will be split into   customer-frg-id -    The customer fragment ID that will be used to split the key (if empty, the key will be created independently of a customer fragment)   token -    Access token
+Upload RSA key Options:   name -    Name of key to be created   alg -    Key type. options- [RSA1024, RSA2048]   rsa-key-file-path -    RSA private key file path   cert -    Path to a file that contain the certificate in a PEM format.   metadata -    A metadata about the key   tag -    List of the tags attached to this key. To specify multiple tags use argument multiple times- -t Tag1 -t Tag2   split-level -    The number of fragments that the item will be split into   customer-frg-id -    The customer fragment ID that will be used to split the key (if empty, the key will be created independently of a customer fragment)   token -    Access token
 
 ### Example
 ```javascript
@@ -2771,6 +2845,7 @@ var token = "token_example"; // String | Access token
 var opts = { 
   'cert': "cert_example", // String | Path to a file that contain the certificate in a PEM format.
   'metadata': "metadata_example", // String | A metadata about the key
+  'tag': "tag_example", // String | List of the tags attached to this key. To specify multiple tags use argument multiple times- -t Tag1 -t Tag2
   'splitLevel': "splitLevel_example", // String | The number of fragments that the item will be split into
   'customerFrgId': "customerFrgId_example" // String | The customer fragment ID that will be used to split the key (if empty, the key will be created independently of a customer fragment)
 };
@@ -2795,6 +2870,7 @@ Name | Type | Description  | Notes
  **token** | **String**| Access token | 
  **cert** | **String**| Path to a file that contain the certificate in a PEM format. | [optional] 
  **metadata** | **String**| A metadata about the key | [optional] 
+ **tag** | **String**| List of the tags attached to this key. To specify multiple tags use argument multiple times- -t Tag1 -t Tag2 | [optional] 
  **splitLevel** | **String**| The number of fragments that the item will be split into | [optional] 
  **customerFrgId** | **String**| The customer fragment ID that will be used to split the key (if empty, the key will be created independently of a customer fragment) | [optional] 
 

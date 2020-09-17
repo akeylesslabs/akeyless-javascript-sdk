@@ -124,14 +124,15 @@
 
     /**
      * Authenticate to the service and returns a token to be used as a profile to execute the CLI without the need for re-authentication
-     * Authenticate to the service and returns a token to be used as a profile to execute the CLI without the need for re-authentication Options:   access-id -    Access ID   access-type -    Access Type (access_key/password/saml/ldap/azure_ad/aws_iam)   access-key -    Access key (relevant only for access-type=access_key)   admin-password -    Password (relevant only for access-type=password)   admin-email -    Email (relevant only for access-type=password)   cloud-id -    The cloued identity (relevant only for access-type=azure_ad,awd_im,auid)   ldap_proxy_url -    Address URL for LDAP proxy (relevant only for access-type=ldap)
+     * Authenticate to the service and returns a token to be used as a profile to execute the CLI without the need for re-authentication Options:   access-id -    Access ID   access-type -    Access Type (access_key/password/saml/ldap/azure_ad/aws_iam/universal_identity)   access-key -    Access key (relevant only for access-type=access_key)   cloud-id -    The cloued identity (relevant only for access-type=azure_ad,awd_im)   uid_token -    The universal_identity token (relevant only for access-type=universal_identity)   admin-password -    Password (relevant only for access-type=password)   admin-email -    Email (relevant only for access-type=password)   ldap_proxy_url -    Address URL for LDAP proxy (relevant only for access-type=ldap)
      * @param {Object} opts Optional parameters
      * @param {String} opts.accessId Access ID
-     * @param {String} opts.accessType Access Type (access_key/password/saml/ldap/azure_ad/aws_iam)
+     * @param {String} opts.accessType Access Type (access_key/password/saml/ldap/azure_ad/aws_iam/universal_identity)
      * @param {String} opts.accessKey Access key (relevant only for access-type=access_key)
+     * @param {String} opts.cloudId The cloued identity (relevant only for access-type=azure_ad,awd_im)
+     * @param {String} opts.uidToken The universal_identity token (relevant only for access-type=universal_identity)
      * @param {String} opts.adminPassword Password (relevant only for access-type=password)
      * @param {String} opts.adminEmail Email (relevant only for access-type=password)
-     * @param {String} opts.cloudId The cloued identity (relevant only for access-type=azure_ad,awd_im,auid)
      * @param {String} opts.ldapProxyUrl Address URL for LDAP proxy (relevant only for access-type=ldap)
      * @param {module:com.akeyless.api_gateway.swagger/com.akeyless.api_gateway.swagger.api/DefaultApi~authCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:com.akeyless.api_gateway.swagger/com.akeyless.api_gateway.swagger.model/ReplyObj}
@@ -147,9 +148,10 @@
         'access-id': opts['accessId'],
         'access-type': opts['accessType'],
         'access-key': opts['accessKey'],
+        'cloud-id': opts['cloudId'],
+        'uid_token': opts['uidToken'],
         'admin-password': opts['adminPassword'],
         'admin-email': opts['adminEmail'],
-        'cloud-id': opts['cloudId'],
         'ldap_proxy_url': opts['ldapProxyUrl'],
       };
       var collectionQueryParams = {
@@ -181,13 +183,14 @@
 
     /**
      * Configure client profile.
-     * Configure client profile. Options:   access-id -    Access ID   access-key -    Access Key   admin-password -    Password (relevant only for access-type=password)   admin-email -    Email (relevant only for access-type=password)   access-type -    Access Type (access_key/password/azure_ad/saml/ldap/aws_iam)   ldap_proxy_url -    Address URL for ldap proxy (relevant only for access-type=ldap)   azure_ad_object_id -    Azure Active Directory ObjectId (relevant only for access-type=azure_ad)
+     * Configure client profile. Options:   access-id -    Access ID   access-key -    Access Key   access-type -    Access Type (access_key/password/azure_ad/saml/ldap/aws_iam/universal_identity)   admin-password -    Password (relevant only for access-type=password)   admin-email -    Email (relevant only for access-type=password)   uid_token -    The universal_identity token (relevant only for access-type=universal_identity)   ldap_proxy_url -    Address URL for ldap proxy (relevant only for access-type=ldap)   azure_ad_object_id -    Azure Active Directory ObjectId (relevant only for access-type=azure_ad)
      * @param {Object} opts Optional parameters
      * @param {String} opts.accessId Access ID
      * @param {String} opts.accessKey Access Key
+     * @param {String} opts.accessType Access Type (access_key/password/azure_ad/saml/ldap/aws_iam/universal_identity)
      * @param {String} opts.adminPassword Password (relevant only for access-type=password)
      * @param {String} opts.adminEmail Email (relevant only for access-type=password)
-     * @param {String} opts.accessType Access Type (access_key/password/azure_ad/saml/ldap/aws_iam)
+     * @param {String} opts.uidToken The universal_identity token (relevant only for access-type=universal_identity)
      * @param {String} opts.ldapProxyUrl Address URL for ldap proxy (relevant only for access-type=ldap)
      * @param {String} opts.azureAdObjectId Azure Active Directory ObjectId (relevant only for access-type=azure_ad)
      * @param {module:com.akeyless.api_gateway.swagger/com.akeyless.api_gateway.swagger.api/DefaultApi~configureCallback} callback The callback function, accepting three arguments: error, data, response
@@ -203,9 +206,10 @@
       var queryParams = {
         'access-id': opts['accessId'],
         'access-key': opts['accessKey'],
+        'access-type': opts['accessType'],
         'admin-password': opts['adminPassword'],
         'admin-email': opts['adminEmail'],
-        'access-type': opts['accessType'],
+        'uid_token': opts['uidToken'],
         'ldap_proxy_url': opts['ldapProxyUrl'],
         'azure_ad_object_id': opts['azureAdObjectId'],
       };
@@ -628,9 +632,10 @@
 
     /**
      * Create a new Auth Method that will be able to authenticate using SAML
-     * Create a new Auth Method that will be able to authenticate using SAML Options:   name -    Auth Method name   access-expires -    Access expiration date in Unix timestamp (select 0 for access without expiry date)   bound-ips -    A CIDR whitelist of the IPs that the access is restricted to   idp-metadata-url -    IDP metadata url   token -    Access token
+     * Create a new Auth Method that will be able to authenticate using SAML Options:   name -    Auth Method name   access-expires -    Access expiration date in Unix timestamp (select 0 for access without expiry date)   bound-ips -    A CIDR whitelist of the IPs that the access is restricted to   idp-metadata-url -    IDP metadata url   idp-metadata-xml -    IDP metadata xml   token -    Access token
      * @param {String} name Auth Method name
      * @param {String} idpMetadataUrl IDP metadata url
+     * @param {String} idpMetadataXml IDP metadata xml
      * @param {String} token Access token
      * @param {Object} opts Optional parameters
      * @param {String} opts.accessExpires Access expiration date in Unix timestamp (select 0 for access without expiry date)
@@ -638,7 +643,7 @@
      * @param {module:com.akeyless.api_gateway.swagger/com.akeyless.api_gateway.swagger.api/DefaultApi~createAuthMethodSamlCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:com.akeyless.api_gateway.swagger/com.akeyless.api_gateway.swagger.model/ReplyObj}
      */
-    this.createAuthMethodSaml = function(name, idpMetadataUrl, token, opts, callback) {
+    this.createAuthMethodSaml = function(name, idpMetadataUrl, idpMetadataXml, token, opts, callback) {
       opts = opts || {};
       var postBody = null;
 
@@ -650,6 +655,11 @@
       // verify the required parameter 'idpMetadataUrl' is set
       if (idpMetadataUrl === undefined || idpMetadataUrl === null) {
         throw new Error("Missing the required parameter 'idpMetadataUrl' when calling createAuthMethodSaml");
+      }
+
+      // verify the required parameter 'idpMetadataXml' is set
+      if (idpMetadataXml === undefined || idpMetadataXml === null) {
+        throw new Error("Missing the required parameter 'idpMetadataXml' when calling createAuthMethodSaml");
       }
 
       // verify the required parameter 'token' is set
@@ -665,6 +675,7 @@
         'access-expires': opts['accessExpires'],
         'bound-ips': opts['boundIps'],
         'idp-metadata-url': idpMetadataUrl,
+        'idp-metadata-xml': idpMetadataXml,
         'token': token,
       };
       var collectionQueryParams = {
@@ -696,11 +707,12 @@
 
     /**
      * Creates a new dynamic secret item
-     * Creates a new dynamic secret item Options:   name -    Dynamic secret name   metadata -    Metadata about the dynamic secret   key -    The name of a key that used to encrypt the dynamic secret values (if empty, the account default protectionKey key will be used)   token -    Access token
+     * Creates a new dynamic secret item Options:   name -    Dynamic secret name   metadata -    Metadata about the dynamic secret   tag -    List of the tags attached to this secret. To specify multiple tags use argument multiple times- -t Tag1 -t Tag2   key -    The name of a key that used to encrypt the dynamic secret values (if empty, the account default protectionKey key will be used)   token -    Access token
      * @param {String} name Dynamic secret name
      * @param {String} token Access token
      * @param {Object} opts Optional parameters
      * @param {String} opts.metadata Metadata about the dynamic secret
+     * @param {String} opts.tag List of the tags attached to this secret. To specify multiple tags use argument multiple times- -t Tag1 -t Tag2
      * @param {String} opts.key The name of a key that used to encrypt the dynamic secret values (if empty, the account default protectionKey key will be used)
      * @param {module:com.akeyless.api_gateway.swagger/com.akeyless.api_gateway.swagger.api/DefaultApi~createDynamicSecretCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:com.akeyless.api_gateway.swagger/com.akeyless.api_gateway.swagger.model/ReplyObj}
@@ -725,6 +737,7 @@
       var queryParams = {
         'name': name,
         'metadata': opts['metadata'],
+        'tag': opts['tag'],
         'key': opts['key'],
         'token': token,
       };
@@ -757,12 +770,13 @@
 
     /**
      * Creates a new key
-     * Creates a new key Options:   name -    Key name   alg -    Key type. options- [AES128GCM, AES256GCM, AES128SIV, AES256SIV, RSA1024, RSA2048]   metadata -    Metadata about the key   split-level -    The number of fragments that the item will be split into (not includes customer fragment)   customer-frg-id -    The customer fragment ID that will be used to create the key (if empty, the key will be created independently of a customer fragment)   token -    Access token
+     * Creates a new key Options:   name -    Key name   alg -    Key type. options- [AES128GCM, AES256GCM, AES128SIV, AES256SIV, RSA1024, RSA2048]   metadata -    Metadata about the key   tag -    List of the tags attached to this key. To specify multiple tags use argument multiple times- -t Tag1 -t Tag2   split-level -    The number of fragments that the item will be split into (not includes customer fragment)   customer-frg-id -    The customer fragment ID that will be used to create the key (if empty, the key will be created independently of a customer fragment)   token -    Access token
      * @param {String} name Key name
      * @param {String} alg Key type. options- [AES128GCM, AES256GCM, AES128SIV, AES256SIV, RSA1024, RSA2048]
      * @param {String} token Access token
      * @param {Object} opts Optional parameters
      * @param {String} opts.metadata Metadata about the key
+     * @param {String} opts.tag List of the tags attached to this key. To specify multiple tags use argument multiple times- -t Tag1 -t Tag2
      * @param {String} opts.splitLevel The number of fragments that the item will be split into (not includes customer fragment)
      * @param {String} opts.customerFrgId The customer fragment ID that will be used to create the key (if empty, the key will be created independently of a customer fragment)
      * @param {module:com.akeyless.api_gateway.swagger/com.akeyless.api_gateway.swagger.api/DefaultApi~createKeyCallback} callback The callback function, accepting three arguments: error, data, response
@@ -794,6 +808,7 @@
         'name': name,
         'alg': alg,
         'metadata': opts['metadata'],
+        'tag': opts['tag'],
         'split-level': opts['splitLevel'],
         'customer-frg-id': opts['customerFrgId'],
         'token': token,
@@ -993,12 +1008,13 @@
 
     /**
      * Creates a new secret item
-     * Creates a new secret item Options:   name -    Secret name   value -    The secret value   metadata -    Metadata about the secret   key -    The name of a key that used to encrypt the secret value (if empty, the account default protectionKey key will be used)   multiline -    The provided value is a multiline value (separated by '\\n')   token -    Access token
+     * Creates a new secret item Options:   name -    Secret name   value -    The secret value   metadata -    Metadata about the secret   tag -    List of the tags attached to this secret. To specify multiple tags use argument multiple times- -t Tag1 -t Tag2   key -    The name of a key that used to encrypt the secret value (if empty, the account default protectionKey key will be used)   multiline -    The provided value is a multiline value (separated by '\\n')   token -    Access token
      * @param {String} name Secret name
      * @param {String} value The secret value
      * @param {String} token Access token
      * @param {Object} opts Optional parameters
      * @param {String} opts.metadata Metadata about the secret
+     * @param {String} opts.tag List of the tags attached to this secret. To specify multiple tags use argument multiple times- -t Tag1 -t Tag2
      * @param {String} opts.key The name of a key that used to encrypt the secret value (if empty, the account default protectionKey key will be used)
      * @param {Boolean} opts.multiline The provided value is a multiline value (separated by '\\n')
      * @param {module:com.akeyless.api_gateway.swagger/com.akeyless.api_gateway.swagger.api/DefaultApi~createSecretCallback} callback The callback function, accepting three arguments: error, data, response
@@ -1030,6 +1046,7 @@
         'name': name,
         'value': value,
         'metadata': opts['metadata'],
+        'tag': opts['tag'],
         'key': opts['key'],
         'multiline': opts['multiline'],
         'token': token,
@@ -2515,12 +2532,13 @@
 
     /**
      * Returns a list of all accessible items
-     * Returns a list of all accessible items Options:   type -    The item types list of the requested items. In case it is empty, all types of items will be returned. options- [key, static-secret, dynamic-secret]   ItemsTypes -    ItemsTypes   filter -    Filter by item name or part of it   path -    Path to folder   pagination-token -    Next page reference   token -    Access token
+     * Returns a list of all accessible items Options:   type -    The item types list of the requested items. In case it is empty, all types of items will be returned. options- [key, static-secret, dynamic-secret]   ItemsTypes -    ItemsTypes   filter -    Filter by item name or part of it   tag -    Filter by item tag   path -    Path to folder   pagination-token -    Next page reference   token -    Access token
      * @param {String} token Access token
      * @param {Object} opts Optional parameters
      * @param {String} opts.type The item types list of the requested items. In case it is empty, all types of items will be returned. options- [key, static-secret, dynamic-secret]
      * @param {String} opts.itemsTypes ItemsTypes
      * @param {String} opts.filter Filter by item name or part of it
+     * @param {String} opts.tag Filter by item tag
      * @param {String} opts.path Path to folder
      * @param {String} opts.paginationToken Next page reference
      * @param {module:com.akeyless.api_gateway.swagger/com.akeyless.api_gateway.swagger.api/DefaultApi~listItemsCallback} callback The callback function, accepting three arguments: error, data, response
@@ -2542,6 +2560,7 @@
         'type': opts['type'],
         'ItemsTypes': opts['itemsTypes'],
         'filter': opts['filter'],
+        'tag': opts['tag'],
         'path': opts['path'],
         'pagination-token': opts['paginationToken'],
         'token': token,
@@ -2612,6 +2631,68 @@
 
       return this.apiClient.callApi(
         '/list-roles', 'POST',
+        pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, callback
+      );
+    }
+
+    /**
+     * Callback function to receive the result of the reverseRbac operation.
+     * @callback module:com.akeyless.api_gateway.swagger/com.akeyless.api_gateway.swagger.api/DefaultApi~reverseRbacCallback
+     * @param {String} error Error message, if any.
+     * @param {module:com.akeyless.api_gateway.swagger/com.akeyless.api_gateway.swagger.model/ReplyObj} data The data returned by the service call.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * See which authentication methods have access to a particular object
+     * See which authentication methods have access to a particular object Options:   path -    Path to an object   type -    Type of object (item, am, role)   token -    Access token
+     * @param {String} path Path to an object
+     * @param {String} type Type of object (item, am, role)
+     * @param {String} token Access token
+     * @param {module:com.akeyless.api_gateway.swagger/com.akeyless.api_gateway.swagger.api/DefaultApi~reverseRbacCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link module:com.akeyless.api_gateway.swagger/com.akeyless.api_gateway.swagger.model/ReplyObj}
+     */
+    this.reverseRbac = function(path, type, token, callback) {
+      var postBody = null;
+
+      // verify the required parameter 'path' is set
+      if (path === undefined || path === null) {
+        throw new Error("Missing the required parameter 'path' when calling reverseRbac");
+      }
+
+      // verify the required parameter 'type' is set
+      if (type === undefined || type === null) {
+        throw new Error("Missing the required parameter 'type' when calling reverseRbac");
+      }
+
+      // verify the required parameter 'token' is set
+      if (token === undefined || token === null) {
+        throw new Error("Missing the required parameter 'token' when calling reverseRbac");
+      }
+
+
+      var pathParams = {
+      };
+      var queryParams = {
+        'path': path,
+        'type': type,
+        'token': token,
+      };
+      var collectionQueryParams = {
+      };
+      var headerParams = {
+      };
+      var formParams = {
+      };
+
+      var authNames = [];
+      var contentTypes = ['application/json'];
+      var accepts = ['application/json'];
+      var returnType = ReplyObj;
+
+      return this.apiClient.callApi(
+        '/reverse-rbac', 'POST',
         pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, callback
       );
@@ -2854,12 +2935,14 @@
 
     /**
      * Update item name and metadata
-     * Update item name and metadata Options:   name -    Current item name   new-name -    New item name   new-metadata -    New item metadata   token -    Access token
+     * Update item name and metadata Options:   name -    Current item name   new-name -    New item name   new-metadata -    New item metadata   add-tag -    List of the new tags that will be attached to this item. To specify multiple tags use argument multiple times- --add-tag Tag1 --add-tag Tag2   rm-tag -    List of the existent tags that will be removed from this item. To specify multiple tags use argument multiple times- --rm-tag Tag1 --rm-tag Tag2   token -    Access token
      * @param {String} name Current item name
      * @param {String} token Access token
      * @param {Object} opts Optional parameters
      * @param {String} opts.newName New item name
      * @param {String} opts.newMetadata New item metadata
+     * @param {String} opts.addTag List of the new tags that will be attached to this item. To specify multiple tags use argument multiple times- --add-tag Tag1 --add-tag Tag2
+     * @param {String} opts.rmTag List of the existent tags that will be removed from this item. To specify multiple tags use argument multiple times- --rm-tag Tag1 --rm-tag Tag2
      * @param {module:com.akeyless.api_gateway.swagger/com.akeyless.api_gateway.swagger.api/DefaultApi~updateItemCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:com.akeyless.api_gateway.swagger/com.akeyless.api_gateway.swagger.model/ReplyObj}
      */
@@ -2884,6 +2967,8 @@
         'name': name,
         'new-name': opts['newName'],
         'new-metadata': opts['newMetadata'],
+        'add-tag': opts['addTag'],
+        'rm-tag': opts['rmTag'],
         'token': token,
       };
       var collectionQueryParams = {
@@ -3044,13 +3129,14 @@
 
     /**
      * Upload a PKCS#12 key and certificates
-     * Upload a PKCS#12 key and certificates Options:   name -    Name of key to be created   in -    PKCS#12 input file (private key and certificate only)   passphrase -    Passphrase to unlock the pkcs#12 bundle   metadata -    A metadata about the key   split-level -    The number of fragments that the item will be split into   customer-frg-id -    The customer fragment ID that will be used to split the key (if empty, the key will be created independently of a customer fragment)   cert -    Path to a file that contain the certificate in a PEM format. If this parameter is not empty, the certificate will be taken from here and not from the PKCS#12 input file   token -    Access token
+     * Upload a PKCS#12 key and certificates Options:   name -    Name of key to be created   in -    PKCS#12 input file (private key and certificate only)   passphrase -    Passphrase to unlock the pkcs#12 bundle   metadata -    A metadata about the key   tag -    List of the tags attached to this key. To specify multiple tags use argument multiple times- -t Tag1 -t Tag2   split-level -    The number of fragments that the item will be split into   customer-frg-id -    The customer fragment ID that will be used to split the key (if empty, the key will be created independently of a customer fragment)   cert -    Path to a file that contain the certificate in a PEM format. If this parameter is not empty, the certificate will be taken from here and not from the PKCS#12 input file   token -    Access token
      * @param {String} name Name of key to be created
      * @param {String} _in PKCS#12 input file (private key and certificate only)
      * @param {String} passphrase Passphrase to unlock the pkcs#12 bundle
      * @param {String} token Access token
      * @param {Object} opts Optional parameters
      * @param {String} opts.metadata A metadata about the key
+     * @param {String} opts.tag List of the tags attached to this key. To specify multiple tags use argument multiple times- -t Tag1 -t Tag2
      * @param {String} opts.splitLevel The number of fragments that the item will be split into
      * @param {String} opts.customerFrgId The customer fragment ID that will be used to split the key (if empty, the key will be created independently of a customer fragment)
      * @param {String} opts.cert Path to a file that contain the certificate in a PEM format. If this parameter is not empty, the certificate will be taken from here and not from the PKCS#12 input file
@@ -3089,6 +3175,7 @@
         'in': _in,
         'passphrase': passphrase,
         'metadata': opts['metadata'],
+        'tag': opts['tag'],
         'split-level': opts['splitLevel'],
         'customer-frg-id': opts['customerFrgId'],
         'cert': opts['cert'],
@@ -3123,7 +3210,7 @@
 
     /**
      * Upload RSA key
-     * Upload RSA key Options:   name -    Name of key to be created   alg -    Key type. options- [RSA1024, RSA2048]   rsa-key-file-path -    RSA private key file path   cert -    Path to a file that contain the certificate in a PEM format.   metadata -    A metadata about the key   split-level -    The number of fragments that the item will be split into   customer-frg-id -    The customer fragment ID that will be used to split the key (if empty, the key will be created independently of a customer fragment)   token -    Access token
+     * Upload RSA key Options:   name -    Name of key to be created   alg -    Key type. options- [RSA1024, RSA2048]   rsa-key-file-path -    RSA private key file path   cert -    Path to a file that contain the certificate in a PEM format.   metadata -    A metadata about the key   tag -    List of the tags attached to this key. To specify multiple tags use argument multiple times- -t Tag1 -t Tag2   split-level -    The number of fragments that the item will be split into   customer-frg-id -    The customer fragment ID that will be used to split the key (if empty, the key will be created independently of a customer fragment)   token -    Access token
      * @param {String} name Name of key to be created
      * @param {String} alg Key type. options- [RSA1024, RSA2048]
      * @param {String} rsaKeyFilePath RSA private key file path
@@ -3131,6 +3218,7 @@
      * @param {Object} opts Optional parameters
      * @param {String} opts.cert Path to a file that contain the certificate in a PEM format.
      * @param {String} opts.metadata A metadata about the key
+     * @param {String} opts.tag List of the tags attached to this key. To specify multiple tags use argument multiple times- -t Tag1 -t Tag2
      * @param {String} opts.splitLevel The number of fragments that the item will be split into
      * @param {String} opts.customerFrgId The customer fragment ID that will be used to split the key (if empty, the key will be created independently of a customer fragment)
      * @param {module:com.akeyless.api_gateway.swagger/com.akeyless.api_gateway.swagger.api/DefaultApi~uploadRsaCallback} callback The callback function, accepting three arguments: error, data, response
@@ -3169,6 +3257,7 @@
         'rsa-key-file-path': rsaKeyFilePath,
         'cert': opts['cert'],
         'metadata': opts['metadata'],
+        'tag': opts['tag'],
         'split-level': opts['splitLevel'],
         'customer-frg-id': opts['customerFrgId'],
         'token': token,

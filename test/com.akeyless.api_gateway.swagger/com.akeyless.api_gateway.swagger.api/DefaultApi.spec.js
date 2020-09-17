@@ -77,9 +77,10 @@
           opts.accessId = "accessId_example";
           opts.accessType = "accessType_example";
           opts.accessKey = "accessKey_example";
+          opts.cloudId = "cloudId_example";
+          opts.uidToken = "uidToken_example";
           opts.adminPassword = "adminPassword_example";
           opts.adminEmail = "adminEmail_example";
-          opts.cloudId = "cloudId_example";
           opts.ldapProxyUrl = "ldapProxyUrl_example";
 
           instance.auth(opts, function(error, data, response) {
@@ -112,9 +113,10 @@
           var opts = {};
           opts.accessId = "accessId_example";
           opts.accessKey = "accessKey_example";
+          opts.accessType = "accessType_example";
           opts.adminPassword = "adminPassword_example";
           opts.adminEmail = "adminEmail_example";
-          opts.accessType = "accessType_example";
+          opts.uidToken = "uidToken_example";
           opts.ldapProxyUrl = "ldapProxyUrl_example";
           opts.azureAdObjectId = "azureAdObjectId_example";
 
@@ -337,12 +339,13 @@
           /*
           var name = "name_example";
           var idpMetadataUrl = "idpMetadataUrl_example";
+          var idpMetadataXml = "idpMetadataXml_example";
           var token = "token_example";
           var opts = {};
           opts.accessExpires = "accessExpires_example";
           opts.boundIps = "boundIps_example";
 
-          instance.createAuthMethodSaml(name, idpMetadataUrl, token, opts, function(error, data, response) {
+          instance.createAuthMethodSaml(name, idpMetadataUrl, idpMetadataXml, token, opts, function(error, data, response) {
             if (error) {
               done(error);
               return;
@@ -373,6 +376,7 @@
           var token = "token_example";
           var opts = {};
           opts.metadata = "metadata_example";
+          opts.tag = "tag_example";
           opts.key = "key_example";
 
           instance.createDynamicSecret(name, token, opts, function(error, data, response) {
@@ -407,6 +411,7 @@
           var token = "token_example";
           var opts = {};
           opts.metadata = "metadata_example";
+          opts.tag = "tag_example";
           opts.splitLevel = "splitLevel_example";
           opts.customerFrgId = "customerFrgId_example";
 
@@ -525,6 +530,7 @@
           var token = "token_example";
           var opts = {};
           opts.metadata = "metadata_example";
+          opts.tag = "tag_example";
           opts.key = "key_example";
           opts.multiline = true;
 
@@ -1321,6 +1327,7 @@
           opts.type = "type_example";
           opts.itemsTypes = "itemsTypes_example";
           opts.filter = "filter_example";
+          opts.tag = "tag_example";
           opts.path = "path_example";
           opts.paginationToken = "paginationToken_example";
 
@@ -1356,6 +1363,37 @@
           opts.paginationToken = "paginationToken_example";
 
           instance.listRoles(token, opts, function(error, data, response) {
+            if (error) {
+              done(error);
+              return;
+            }
+            // TODO: update response assertions
+            expect(data).to.be.a(AkeylessVaultApi.ReplyObj);
+            expect(data.command).to.be.a('string');
+            expect(data.command).to.be("");
+            expect(data.response).to.be.a(Object);
+            expect(data.response).to.be();
+            expect(data.status).to.be.a('string');
+            expect(data.status).to.be("");
+            expect(data.token).to.be.a('string');
+            expect(data.token).to.be("");
+
+            done();
+          });
+          */
+          // TODO: uncomment and complete method invocation above, then delete this line and the next:
+          done();
+        });
+      });
+      describe('reverseRbac', function() {
+        it('should call reverseRbac successfully', function(done) {
+          // TODO: uncomment, update parameter values for reverseRbac call and complete the assertions
+          /*
+          var path = "path_example";
+          var type = "type_example";
+          var token = "token_example";
+
+          instance.reverseRbac(path, type, token, function(error, data, response) {
             if (error) {
               done(error);
               return;
@@ -1508,6 +1546,8 @@
           var opts = {};
           opts.newName = "newName_example";
           opts.newMetadata = "newMetadata_example";
+          opts.addTag = "addTag_example";
+          opts.rmTag = "rmTag_example";
 
           instance.updateItem(name, token, opts, function(error, data, response) {
             if (error) {
@@ -1609,6 +1649,7 @@
           var token = "token_example";
           var opts = {};
           opts.metadata = "metadata_example";
+          opts.tag = "tag_example";
           opts.splitLevel = "splitLevel_example";
           opts.customerFrgId = "customerFrgId_example";
           opts.cert = "cert_example";
@@ -1647,6 +1688,7 @@
           var opts = {};
           opts.cert = "cert_example";
           opts.metadata = "metadata_example";
+          opts.tag = "tag_example";
           opts.splitLevel = "splitLevel_example";
           opts.customerFrgId = "customerFrgId_example";
 

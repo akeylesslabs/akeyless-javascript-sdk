@@ -107,14 +107,18 @@ Please follow the [installation](#installation) instruction and execute the foll
 ```javascript
 var AkeylessVaultApi = require('akeyless_vault_api');
 
-
 var api = new AkeylessVaultApi.DefaultApi()
+
 var roleName = "roleName_example"; // {String} The role name to associate
+
 var amName = "amName_example"; // {String} The auth method name to associate
+
 var token = "token_example"; // {String} Access token
-var opts = {
+
+var opts = { 
   'subClaims': "subClaims_example" // {String} key/val of sub claims, ex. group=admins,developers
 };
+
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -172,6 +176,7 @@ Class | Method | HTTP request | Description
 *AkeylessVaultApi.DefaultApi* | [**listAuthMethods**](docs/DefaultApi.md#listAuthMethods) | **POST** /list-auth-methods | Returns a list of all the Auth Methods in the account
 *AkeylessVaultApi.DefaultApi* | [**listItems**](docs/DefaultApi.md#listItems) | **POST** /list-items | Returns a list of all accessible items
 *AkeylessVaultApi.DefaultApi* | [**listRoles**](docs/DefaultApi.md#listRoles) | **POST** /list-roles | Returns a list of all roles in the account
+*AkeylessVaultApi.DefaultApi* | [**reverseRbac**](docs/DefaultApi.md#reverseRbac) | **POST** /reverse-rbac | See which authentication methods have access to a particular object
 *AkeylessVaultApi.DefaultApi* | [**setRoleRule**](docs/DefaultApi.md#setRoleRule) | **POST** /set-role-rule | Set a rule to a role
 *AkeylessVaultApi.DefaultApi* | [**signPkcs1**](docs/DefaultApi.md#signPkcs1) | **POST** /sign-pkcs1 | Calculates the signature of hashed using RSASSA-PKCS1-V1_5-SIGN from RSA PKCS#1 v1.5
 *AkeylessVaultApi.DefaultApi* | [**unconfigure**](docs/DefaultApi.md#unconfigure) | **POST** /unconfigure | Remove Configuration of client profile.
